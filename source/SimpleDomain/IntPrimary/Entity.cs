@@ -9,5 +9,20 @@ namespace SimpleDomain.IntPrimary
     /// <inheritdoc />
     public abstract class Entity : Entity<int>
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Entity"/> class.
+        /// </summary>
+        protected Entity()
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Entity"/> class.
+        /// </summary>
+        /// <param name="id">The identifier for the entity.</param>
+        protected Entity(int id)
+            : base(id)
+        {
+        }
     }
 }

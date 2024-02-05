@@ -5,6 +5,8 @@
 using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SimpleDomain.Tests.GuidPrimary;
+using SimpleDomain.Tests.IntPrimary;
+using SimpleDomain.Tests.LongPrimary;
 
 namespace SimpleDomain.Tests
 {
@@ -29,9 +31,27 @@ namespace SimpleDomain.Tests
         /// Ensures the entity throws an exception on an empty guid.
         /// </summary>
         [TestMethod]
-        public void Constructor_EmptyId_ThrowsException()
+        public void GuidConstructor_EmptyId_ThrowsException()
         {
-            Assert.ThrowsException<ArgumentNullException>(() => new TestGuidEntity(Guid.Empty));
+            Assert.ThrowsException<NullReferenceException>(() => new TestGuidEntity(Guid.Empty));
+        }
+
+        /// <summary>
+        /// Ensures the entity throws an exception on a zeroed int.
+        /// </summary>
+        [TestMethod]
+        public void IntConstructor_EmptyId_ThrowsException()
+        {
+            Assert.ThrowsException<NullReferenceException>(() => new TestIntEntity(0));
+        }
+
+        /// <summary>
+        /// Ensures the entity throws an exception on a zeroed long.
+        /// </summary>
+        [TestMethod]
+        public void LongConstructor_EmptyId_ThrowsException()
+        {
+            Assert.ThrowsException<NullReferenceException>(() => new TestLongEntity(0));
         }
 
         /// <summary>

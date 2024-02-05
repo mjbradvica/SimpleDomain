@@ -18,6 +18,17 @@ namespace SimpleDomain.Common
         /// </summary>
         protected Entity()
         {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Entity{T}"/> class.
+        /// </summary>
+        /// <param name="id">The identifier for the entity.</param>
+        protected Entity(T id)
+            : this()
+        {
+            Id = id;
+
             if (Id is Guid guidId)
             {
                 if (guidId == Guid.Empty)
@@ -41,16 +52,6 @@ namespace SimpleDomain.Common
                     throw new NullReferenceException(nameof(Id));
                 }
             }
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Entity{T}"/> class.
-        /// </summary>
-        /// <param name="id">The identifier for the entity.</param>
-        protected Entity(T id)
-            : this()
-        {
-            Id = id;
         }
 
         /// <inheritdoc />
