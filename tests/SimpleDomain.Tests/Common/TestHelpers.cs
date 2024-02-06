@@ -12,15 +12,6 @@ namespace SimpleDomain.Tests.Common
     public class TestHelpers
     {
         /// <summary>
-        /// Returns the test db context.
-        /// </summary>
-        /// <returns>A new <see cref="TestDbContext"/> instance.</returns>
-        public static TestDbContext GetDbContext()
-        {
-            return new TestDbContext();
-        }
-
-        /// <summary>
         /// Clears all test tables.
         /// </summary>
         public static void ClearDatabase()
