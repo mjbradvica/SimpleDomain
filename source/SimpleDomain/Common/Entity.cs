@@ -52,6 +52,14 @@ namespace SimpleDomain.Common
                     throw new NullReferenceException(nameof(Id));
                 }
             }
+
+            if (Id is string stringId)
+            {
+                if (string.IsNullOrWhiteSpace(stringId))
+                {
+                    throw new NullReferenceException(nameof(Id));
+                }
+            }
         }
 
         /// <inheritdoc />

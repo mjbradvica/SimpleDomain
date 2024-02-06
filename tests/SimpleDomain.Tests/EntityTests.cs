@@ -3,7 +3,6 @@
 // </copyright>
 
 using System;
-using System.Runtime.ExceptionServices;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SimpleDomain.Tests.GuidPrimary;
 using SimpleDomain.Tests.IntPrimary;
@@ -57,6 +56,15 @@ namespace SimpleDomain.Tests
         }
 
         /// <summary>
+        /// Ensures the entity throws an exception on a zeroed long.
+        /// </summary>
+        [TestMethod]
+        public void StringConstructor_EmptyId_ThrowsException()
+        {
+            Assert.ThrowsException<NullReferenceException>(() => new TestStringEntity(string.Empty));
+        }
+
+        /// <summary>
         /// Ensures a null equality comparison returns correct result.
         /// </summary>
         [TestMethod]
@@ -101,11 +109,11 @@ namespace SimpleDomain.Tests
         [TestMethod]
         public void Equal_EntityObject_NullId_ReturnsFalse()
         {
-            var first = new TestStringEntity();
-            var second = new TestStringEntity
+            var first = new TestStringEntity
             {
                 Id = default!,
             };
+            var second = new TestStringEntity();
 
             Assert.IsFalse(first.Equals(second));
         }
