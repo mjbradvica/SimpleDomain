@@ -42,7 +42,7 @@ namespace SimpleDomain.Tests.Common
         public static string ConnectionString()
         {
             return Environment.GetEnvironmentVariable("TEST_CONNECTION_STRING") ??
-                                 "Server=.\\SQLExpress;Database=SimpleDomain;Trusted_Connection=True;MultipleActiveResultSets=true;Integrated Security=True;TrustServerCertificate=true";
+                                 "Server=.\\SQLExpress;Database=SimpleDomain.Tests;Trusted_Connection=True;MultipleActiveResultSets=true;Integrated Security=True;TrustServerCertificate=true";
         }
     }
 }
