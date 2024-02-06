@@ -100,7 +100,7 @@ namespace SimpleDomain.Tests.GuidPrimary
             {
                 await connection.OpenAsync();
 
-                var result = await connection.QueryFirstAsync<TestGuidEntity>($"SELECT * FROM dbo.GuidEntities WHERE ID='{id}'");
+                var result = await connection.QueryFirstAsync<TestGuidEntity>($"SELECT * FROM dbo.GuidEntities WHERE Id='{id}'");
 
                 await connection.CloseAsync();
 
