@@ -2,6 +2,10 @@
 // Copyright (c) Michael Bradvica LLC. All rights reserved.
 // </copyright>
 
+using MongoDB.Bson.Serialization;
+using MongoDB.Bson.Serialization.Serializers;
+using SimpleDomain.Tests.GuidPrimary;
+
 namespace SimpleDomain.Tests.Common
 {
     /// <summary>
@@ -14,6 +18,19 @@ namespace SimpleDomain.Tests.Common
         /// </summary>
         public BaseIntegrationTest()
         {
+            if (BsonSerializer.LookupSerializer(typeof(GuidSerializer)) == null)
+            {
+                BsonSerializer.TryRegisterSerializer(new GuidSerializer());
+            }
+
+            if (!BsonClassMap.IsClassMapRegistered(typeof(TestGuidEntity)))
+            {
+                BsonClassMap.RegisterClassMap<TestGuidEntity>(map =>
+                {
+                    map.AutoMap();
+                });
+            }
+
             TestHelpers.ClearDatabase();
         }
     }
