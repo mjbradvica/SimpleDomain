@@ -7,8 +7,10 @@ using SimpleDomain.Common;
 
 namespace SimpleDomain.GuidPrimary
 {
-    /// <inheritdoc />
-    public abstract class AggregateRoot : AggregateRoot<Guid>
+    /// <summary>
+    /// Base class for all <see cref="Guid"/> aggregate roots.
+    /// </summary>
+    public abstract class AggregateRoot : AggregateRoot<Guid>, IAggregateRoot
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="AggregateRoot"/> class.

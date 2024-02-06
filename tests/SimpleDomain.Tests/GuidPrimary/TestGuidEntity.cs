@@ -15,6 +15,13 @@ namespace SimpleDomain.Tests.GuidPrimary
         /// <summary>
         /// Initializes a new instance of the <see cref="TestGuidEntity"/> class.
         /// </summary>
+        public TestGuidEntity()
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TestGuidEntity"/> class.
+        /// </summary>
         /// <param name="id">The entity identifier.</param>
         public TestGuidEntity(Guid id)
             : base(id)

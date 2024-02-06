@@ -14,6 +14,13 @@ namespace SimpleDomain.Tests.LongPrimary
         /// <summary>
         /// Initializes a new instance of the <see cref="TestLongEntity"/> class.
         /// </summary>
+        public TestLongEntity()
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TestLongEntity"/> class.
+        /// </summary>
         /// <param name="id">The identifier for the test entity.</param>
         public TestLongEntity(long id)
             : base(id)

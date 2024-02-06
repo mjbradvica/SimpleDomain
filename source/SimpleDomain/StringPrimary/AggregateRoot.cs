@@ -4,12 +4,12 @@
 
 using SimpleDomain.Common;
 
-namespace SimpleDomain.LongPrimary
+namespace SimpleDomain.StringPrimary
 {
     /// <summary>
-    /// Base class for all <see cref="long"/> aggregate roots.
+    /// Base class for all <see cref="string"/> aggregate roots.
     /// </summary>
-    public abstract class AggregateRoot : AggregateRoot<long>, IAggregateRoot
+    public abstract class AggregateRoot : AggregateRoot<string>, IAggregateRoot
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="AggregateRoot"/> class.
@@ -21,8 +21,8 @@ namespace SimpleDomain.LongPrimary
         /// <summary>
         /// Initializes a new instance of the <see cref="AggregateRoot"/> class.
         /// </summary>
-        /// <param name="id">The identifier for an aggregate root.</param>
-        protected AggregateRoot(long id)
+        /// <param name="id">The identifier for the aggregate root.</param>
+        protected AggregateRoot(string id)
             : base(id)
         {
         }
