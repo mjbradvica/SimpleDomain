@@ -7,13 +7,16 @@ using SimpleDomain.Common;
 
 namespace SimpleDomain.GuidPrimary
 {
-    /// <inheritdoc />
-    public abstract class Entity : Entity<Guid>
+    /// <summary>
+    /// Base class for all <see cref="Guid"/> entities.
+    /// </summary>
+    public abstract class Entity : Entity<Guid>, IEntity
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Entity"/> class.
         /// </summary>
         protected Entity()
+            : this(Guid.NewGuid())
         {
         }
 

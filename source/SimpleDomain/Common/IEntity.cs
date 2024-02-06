@@ -9,7 +9,6 @@ namespace SimpleDomain.Common
     /// </summary>
     /// <typeparam name="T">The type of the identifier.</typeparam>
     public interface IEntity<out T>
-        where T : struct
     {
         /// <summary>
         /// Gets the entity identifier.

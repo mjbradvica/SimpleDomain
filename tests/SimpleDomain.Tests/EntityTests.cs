@@ -3,10 +3,12 @@
 // </copyright>
 
 using System;
+using System.Runtime.ExceptionServices;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SimpleDomain.Tests.GuidPrimary;
 using SimpleDomain.Tests.IntPrimary;
 using SimpleDomain.Tests.LongPrimary;
+using SimpleDomain.Tests.StringPrimary;
 
 namespace SimpleDomain.Tests
 {
@@ -91,6 +93,21 @@ namespace SimpleDomain.Tests
             object second = new TestGuidEntity(id);
 
             Assert.IsTrue(first.Equals(second));
+        }
+
+        /// <summary>
+        /// Ensures a null entity id returns the correct result.
+        /// </summary>
+        [TestMethod]
+        public void Equal_EntityObject_NullId_ReturnsFalse()
+        {
+            var first = new TestStringEntity();
+            var second = new TestStringEntity
+            {
+                Id = default!,
+            };
+
+            Assert.IsFalse(first.Equals(second));
         }
 
         /// <summary>

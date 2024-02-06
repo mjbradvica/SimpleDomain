@@ -6,8 +6,10 @@ using SimpleDomain.Common;
 
 namespace SimpleDomain.LongPrimary
 {
-    /// <inheritdoc />
-    public abstract class Entity : Entity<long>
+    /// <summary>
+    /// Base class for all <see cref="long"/> entities.
+    /// </summary>
+    public abstract class Entity : Entity<long>, IEntity
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Entity"/> class.

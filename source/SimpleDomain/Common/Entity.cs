@@ -11,13 +11,13 @@ namespace SimpleDomain.Common
     /// </summary>
     /// <typeparam name="T">The type of the entity identifier.</typeparam>
     public abstract class Entity<T> : IEntity<T>, IEquatable<Entity<T>>
-        where T : struct
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Entity{T}"/> class.
         /// </summary>
         protected Entity()
         {
+            Id = default!;
         }
 
         /// <summary>
@@ -55,7 +55,7 @@ namespace SimpleDomain.Common
         }
 
         /// <inheritdoc />
-        public T Id { get; private set; }
+        public T Id { get; init; }
 
         /// <summary>
         /// Determines equality for another entity.
@@ -65,6 +65,11 @@ namespace SimpleDomain.Common
         public bool Equals(Entity<T>? other)
         {
             if (other == null)
+            {
+                return false;
+            }
+
+            if (Id == null)
             {
                 return false;
             }

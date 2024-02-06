@@ -11,7 +11,6 @@ namespace SimpleDomain.Common
     /// </summary>
     /// <typeparam name="T">The type of the entity identifier.</typeparam>
     public interface IAggregateRoot<out T> : IEntity<T>
-        where T : struct
     {
         /// <summary>
         /// Gets all domain events for an aggregate root.

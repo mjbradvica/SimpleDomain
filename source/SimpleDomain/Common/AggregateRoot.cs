@@ -11,7 +11,6 @@ namespace SimpleDomain.Common
     /// </summary>
     /// <typeparam name="T">The type of the identifier.</typeparam>
     public abstract class AggregateRoot<T> : Entity<T>, IAggregateRoot<T>
-        where T : struct
     {
         private readonly List<IDomainEvent> _domainEvents;
 

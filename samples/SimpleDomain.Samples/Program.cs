@@ -15,6 +15,8 @@ namespace SimpleDomain.Samples
         public static void Main()
         {
             Console.WriteLine("Hello, World!");
+
+            var longEntity = new Airplane(1);
         }
     }
 }

@@ -6,8 +6,10 @@ using SimpleDomain.Common;
 
 namespace SimpleDomain.LongPrimary
 {
-    /// <inheritdoc />
-    public abstract class AggregateRoot : AggregateRoot<long>
+    /// <summary>
+    /// Base class for all <see cref="long"/> aggregate roots.
+    /// </summary>
+    public abstract class AggregateRoot : AggregateRoot<long>, IAggregateRoot
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="AggregateRoot"/> class.
