@@ -48,7 +48,7 @@ namespace SimpleDomain.Tests.Common
         /// <returns>The correct connection string.</returns>
         public static string MongoConnectionString()
         {
-            return Environment.GetEnvironmentVariable("TEST_MONGO_CONNECTION") ?? "mongodb://localhost:27017";
+            return "mongodb://localhost:27017";
         }
     }
 }
