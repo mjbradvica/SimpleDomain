@@ -1,23 +1,23 @@
-﻿// <copyright file="GuidEntityIntegrationTests.cs" company="Michael Bradvica LLC">
+﻿// <copyright file="IntEntityIntegrationTests.cs" company="Michael Bradvica LLC">
 // Copyright (c) Michael Bradvica LLC. All rights reserved.
 // </copyright>
 
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Dapper;
 using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SimpleDomain.Tests.Common;
 
-namespace SimpleDomain.Tests.GuidPrimary
+namespace SimpleDomain.Tests.IntPrimary
 {
     /// <summary>
-    /// Guid entity integration tests.
+    /// Int entity integration tests.
     /// </summary>
     [TestClass]
-    public class GuidEntityIntegrationTests : BaseIntegrationTest
+    public class IntEntityIntegrationTests : BaseIntegrationTest
     {
         /// <summary>
         /// Ensures an entity can be persisted correctly.
@@ -28,7 +28,7 @@ namespace SimpleDomain.Tests.GuidPrimary
         {
             await using (var context = new TestDbContext())
             {
-                await context.GuidEntities.AddAsync(new TestGuidEntity(Guid.NewGuid()));
+                await context.IntEntities.AddAsync(new TestIntEntity());
 
                 await context.SaveChangesAsync();
             }
@@ -41,21 +41,19 @@ namespace SimpleDomain.Tests.GuidPrimary
         [TestMethod]
         public async Task Entity_EF_CanBeRetrieved()
         {
-            var id = Guid.NewGuid();
-
             await using (var context = new TestDbContext())
             {
-                await context.GuidEntities.AddAsync(new TestGuidEntity(id));
+                await context.IntEntities.AddAsync(new TestIntEntity());
 
                 await context.SaveChangesAsync();
             }
 
             await using (var context = new TestDbContext())
             {
-                var result = await context.GuidEntities.FindAsync(id);
+                var result = await context.IntEntities.ToListAsync();
 
-                Assert.IsNotNull(result);
-                Assert.AreEqual(id, result.Id);
+                Assert.IsNotNull(result.First());
+                Assert.IsTrue(result.First().Id > 0);
             }
         }
 
@@ -70,9 +68,9 @@ namespace SimpleDomain.Tests.GuidPrimary
             {
                 await connection.OpenAsync();
 
-                var entity = new TestGuidEntity(Guid.NewGuid());
+                var entity = new TestIntEntity();
 
-                await connection.ExecuteAsync($"INSERT INTO dbo.GuidEntities VALUES ('{entity.Id}');");
+                await connection.ExecuteAsync("SET IDENTITY_INSERT dbo.IntEntities ON; INSERT INTO dbo.IntEntities (Id) VALUES ('1');");
 
                 await connection.CloseAsync();
             }
@@ -85,15 +83,15 @@ namespace SimpleDomain.Tests.GuidPrimary
         [TestMethod]
         public async Task Entity_Dapper_CanBeRetrieved()
         {
-            var id = Guid.NewGuid();
+            const int id = 1;
 
             await using (var connection = new SqlConnection(TestHelpers.ConnectionString()))
             {
                 await connection.OpenAsync();
 
-                var entity = new TestGuidEntity(id);
+                var entity = new TestIntEntity(id);
 
-                await connection.ExecuteAsync($"INSERT INTO dbo.GuidEntities VALUES ('{entity.Id}');");
+                await connection.ExecuteAsync($"SET IDENTITY_INSERT dbo.IntEntities ON; INSERT INTO dbo.IntEntities (Id) VALUES ('{id}');");
 
                 await connection.CloseAsync();
             }
@@ -102,7 +100,7 @@ namespace SimpleDomain.Tests.GuidPrimary
             {
                 await connection.OpenAsync();
 
-                var result = await connection.QueryFirstAsync<TestGuidEntity>($"SELECT * FROM dbo.GuidEntities WHERE Id='{id}';");
+                var result = await connection.QueryFirstAsync<TestIntEntity>($"SELECT * FROM dbo.IntEntities WHERE Id='{id}';");
 
                 await connection.CloseAsync();
 
@@ -122,11 +120,11 @@ namespace SimpleDomain.Tests.GuidPrimary
             {
                 await connection.OpenAsync();
 
-                var entity = new TestGuidEntity(Guid.NewGuid());
+                var entity = new TestIntEntity(1);
 
                 var transaction = connection.BeginTransaction();
 
-                var command = new SqlCommand($"INSERT INTO dbo.GuidEntities VALUES ('{entity.Id}');", connection, transaction);
+                var command = new SqlCommand($"SET IDENTITY_INSERT dbo.IntEntities ON; INSERT INTO dbo.IntEntities (Id) VALUES ('{entity.Id}');", connection, transaction);
 
                 await command.ExecuteNonQueryAsync();
 
@@ -143,17 +141,17 @@ namespace SimpleDomain.Tests.GuidPrimary
         [TestMethod]
         public async Task Entity_ADO_CanBeRetrieved()
         {
-            var id = Guid.NewGuid();
+            const int id = 1;
 
             await using (var connection = new SqlConnection(TestHelpers.ConnectionString()))
             {
                 await connection.OpenAsync();
 
-                var entity = new TestGuidEntity(id);
+                var entity = new TestIntEntity(id);
 
                 var transaction = connection.BeginTransaction();
 
-                var command = new SqlCommand($"INSERT INTO dbo.GuidEntities VALUES ('{entity.Id}');", connection, transaction);
+                var command = new SqlCommand($"SET IDENTITY_INSERT dbo.IntEntities ON; INSERT INTO dbo.IntEntities (Id) VALUES ('{entity.Id}');", connection, transaction);
 
                 await command.ExecuteNonQueryAsync();
 
@@ -166,15 +164,15 @@ namespace SimpleDomain.Tests.GuidPrimary
             {
                 await connection.OpenAsync();
 
-                var command = new SqlCommand($"SELECT * FROM dbo.GuidEntities WHERE Id='{id}';", connection);
+                var command = new SqlCommand($"SELECT * FROM dbo.IntEntities WHERE Id='{id}';", connection);
 
                 var response = await command.ExecuteReaderAsync();
 
-                var entities = new List<TestGuidEntity>();
+                var entities = new List<TestIntEntity>();
 
                 while (await response.ReadAsync())
                 {
-                    entities.Add(new TestGuidEntity(response.GetGuid(0)));
+                    entities.Add(new TestIntEntity(response.GetInt32(0)));
                 }
 
                 var result = entities.First();

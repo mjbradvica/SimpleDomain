@@ -14,6 +14,13 @@ namespace SimpleDomain.Tests.IntPrimary
         /// <summary>
         /// Initializes a new instance of the <see cref="TestIntEntity"/> class.
         /// </summary>
+        public TestIntEntity()
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TestIntEntity"/> class.
+        /// </summary>
         /// <param name="id">The test entity identifier.</param>
         public TestIntEntity(int id)
             : base(id)

@@ -46,5 +46,17 @@ namespace SimpleDomain.Tests.Common
         {
             optionsBuilder.UseSqlServer(TestHelpers.ConnectionString());
         }
+
+        /// <inheritdoc />
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<TestIntEntity>()
+                .Property(x => x.Id)
+                .ValueGeneratedOnAdd();
+
+            modelBuilder.Entity<TestLongEntity>()
+                .Property(x => x.Id)
+                .ValueGeneratedOnAdd();
+        }
     }
 }
