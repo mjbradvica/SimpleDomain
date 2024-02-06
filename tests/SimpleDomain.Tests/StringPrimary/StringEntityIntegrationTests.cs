@@ -1,7 +1,8 @@
-﻿// <copyright file="IntEntityIntegrationTests.cs" company="Michael Bradvica LLC">
+﻿// <copyright file="StringEntityIntegrationTests.cs" company="Michael Bradvica LLC">
 // Copyright (c) Michael Bradvica LLC. All rights reserved.
 // </copyright>
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -11,14 +12,15 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MongoDB.Driver;
 using SimpleDomain.Tests.Common;
+using SimpleDomain.Tests.IntPrimary;
 
-namespace SimpleDomain.Tests.IntPrimary
+namespace SimpleDomain.Tests.StringPrimary
 {
     /// <summary>
-    /// Int entity integration tests.
+    /// Integration tests for string entities.
     /// </summary>
     [TestClass]
-    public class IntEntityIntegrationTests : BaseIntegrationTest
+    public class StringEntityIntegrationTests : BaseIntegrationTest
     {
         /// <summary>
         /// Ensures an entity can be persisted correctly.
@@ -29,7 +31,7 @@ namespace SimpleDomain.Tests.IntPrimary
         {
             await using (var context = new TestDbContext())
             {
-                await context.IntEntities.AddAsync(new TestIntEntity());
+                await context.StringEntities.AddAsync(new TestStringEntity());
 
                 await context.SaveChangesAsync();
             }
@@ -44,17 +46,17 @@ namespace SimpleDomain.Tests.IntPrimary
         {
             await using (var context = new TestDbContext())
             {
-                await context.IntEntities.AddAsync(new TestIntEntity());
+                await context.StringEntities.AddAsync(new TestStringEntity());
 
                 await context.SaveChangesAsync();
             }
 
             await using (var context = new TestDbContext())
             {
-                var result = await context.IntEntities.ToListAsync();
+                var result = await context.StringEntities.ToListAsync();
 
                 Assert.IsNotNull(result.First());
-                Assert.IsTrue(result.First().Id > 0);
+                Assert.AreNotEqual(Guid.Empty.ToString(), result.First().Id);
             }
         }
 
@@ -69,9 +71,9 @@ namespace SimpleDomain.Tests.IntPrimary
             {
                 await connection.OpenAsync();
 
-                var entity = new TestIntEntity();
+                var entity = new TestStringEntity();
 
-                await connection.ExecuteAsync("SET IDENTITY_INSERT dbo.IntEntities ON; INSERT INTO dbo.IntEntities (Id) VALUES ('1');");
+                await connection.ExecuteAsync($"INSERT INTO dbo.StringEntities VALUES ('{entity.Id}');");
 
                 await connection.CloseAsync();
             }
@@ -84,15 +86,15 @@ namespace SimpleDomain.Tests.IntPrimary
         [TestMethod]
         public async Task Entity_Dapper_CanBeRetrieved()
         {
-            const int id = 1;
+            var id = Guid.NewGuid().ToString();
 
             await using (var connection = new SqlConnection(TestHelpers.ConnectionString()))
             {
                 await connection.OpenAsync();
 
-                var entity = new TestIntEntity(id);
+                var entity = new TestStringEntity(id);
 
-                await connection.ExecuteAsync($"SET IDENTITY_INSERT dbo.IntEntities ON; INSERT INTO dbo.IntEntities (Id) VALUES ('{id}');");
+                await connection.ExecuteAsync($"INSERT INTO dbo.StringEntities VALUES ('{entity.Id}');");
 
                 await connection.CloseAsync();
             }
@@ -101,7 +103,7 @@ namespace SimpleDomain.Tests.IntPrimary
             {
                 await connection.OpenAsync();
 
-                var result = await connection.QueryFirstAsync<TestIntEntity>($"SELECT * FROM dbo.IntEntities WHERE Id='{id}';");
+                var result = await connection.QueryFirstAsync<TestStringEntity>($"SELECT * FROM dbo.StringEntities WHERE Id='{id}';");
 
                 await connection.CloseAsync();
 
@@ -121,11 +123,11 @@ namespace SimpleDomain.Tests.IntPrimary
             {
                 await connection.OpenAsync();
 
-                var entity = new TestIntEntity(1);
+                var entity = new TestStringEntity();
 
                 var transaction = connection.BeginTransaction();
 
-                var command = new SqlCommand($"SET IDENTITY_INSERT dbo.IntEntities ON; INSERT INTO dbo.IntEntities (Id) VALUES ('{entity.Id}');", connection, transaction);
+                var command = new SqlCommand($"INSERT INTO dbo.StringEntities VALUES ('{entity.Id}');", connection, transaction);
 
                 await command.ExecuteNonQueryAsync();
 
@@ -142,17 +144,17 @@ namespace SimpleDomain.Tests.IntPrimary
         [TestMethod]
         public async Task Entity_ADO_CanBeRetrieved()
         {
-            const int id = 1;
+            var id = Guid.NewGuid().ToString();
 
             await using (var connection = new SqlConnection(TestHelpers.ConnectionString()))
             {
                 await connection.OpenAsync();
 
-                var entity = new TestIntEntity(id);
+                var entity = new TestStringEntity(id);
 
                 var transaction = connection.BeginTransaction();
 
-                var command = new SqlCommand($"SET IDENTITY_INSERT dbo.IntEntities ON; INSERT INTO dbo.IntEntities (Id) VALUES ('{entity.Id}');", connection, transaction);
+                var command = new SqlCommand($"INSERT INTO dbo.StringEntities VALUES ('{entity.Id}');", connection, transaction);
 
                 await command.ExecuteNonQueryAsync();
 
@@ -165,15 +167,15 @@ namespace SimpleDomain.Tests.IntPrimary
             {
                 await connection.OpenAsync();
 
-                var command = new SqlCommand($"SELECT * FROM dbo.IntEntities WHERE Id='{id}';", connection);
+                var command = new SqlCommand($"SELECT * FROM dbo.StringEntities WHERE Id='{id}';", connection);
 
                 var response = await command.ExecuteReaderAsync();
 
-                var entities = new List<TestIntEntity>();
+                var entities = new List<TestStringEntity>();
 
                 while (await response.ReadAsync())
                 {
-                    entities.Add(new TestIntEntity(response.GetInt32(0)));
+                    entities.Add(new TestStringEntity(response.GetString(0)));
                 }
 
                 var result = entities.First();
@@ -194,9 +196,9 @@ namespace SimpleDomain.Tests.IntPrimary
         {
             var client = new MongoClient(TestHelpers.MongoConnectionString());
 
-            var collection = client.GetDatabase("simple_domain").GetCollection<TestIntEntity>("int_entities");
+            var collection = client.GetDatabase("simple_domain").GetCollection<TestStringEntity>("string_entities");
 
-            await collection.InsertOneAsync(new TestIntEntity(1));
+            await collection.InsertOneAsync(new TestStringEntity());
         }
 
         /// <summary>
@@ -206,19 +208,19 @@ namespace SimpleDomain.Tests.IntPrimary
         [TestMethod]
         public async Task Entity_Mongo_CanBeRetrieved()
         {
-            const int id = 1;
+            var id = Guid.NewGuid().ToString();
 
             var client = new MongoClient(TestHelpers.MongoConnectionString());
 
-            var collection = client.GetDatabase("simple_domain").GetCollection<TestIntEntity>("int_entities");
+            var collection = client.GetDatabase("simple_domain").GetCollection<TestStringEntity>("string_entities");
 
-            await collection.InsertOneAsync(new TestIntEntity(id));
+            await collection.InsertOneAsync(new TestStringEntity(id));
 
-            var filter = Builders<TestIntEntity>.Filter.Eq(x => x.Id, id);
+            var filter = Builders<TestStringEntity>.Filter.Eq(x => x.Id, id);
 
             var result = await collection.FindAsync(filter);
 
-            IEnumerable<TestIntEntity> results = new List<TestIntEntity>();
+            IEnumerable<TestStringEntity> results = new List<TestStringEntity>();
 
             if (await result.MoveNextAsync())
             {

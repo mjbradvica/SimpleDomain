@@ -5,6 +5,9 @@
 using System;
 using MongoDB.Driver;
 using SimpleDomain.Tests.GuidPrimary;
+using SimpleDomain.Tests.IntPrimary;
+using SimpleDomain.Tests.LongPrimary;
+using SimpleDomain.Tests.StringPrimary;
 
 namespace SimpleDomain.Tests.Common
 {
@@ -30,6 +33,9 @@ namespace SimpleDomain.Tests.Common
             var client = new MongoClient(MongoConnectionString());
 
             client.GetDatabase("simple_domain").GetCollection<TestGuidEntity>("guid_entities").DeleteMany(Builders<TestGuidEntity>.Filter.Empty);
+            client.GetDatabase("simple_domain").GetCollection<TestIntEntity>("int_entities").DeleteMany(Builders<TestIntEntity>.Filter.Empty);
+            client.GetDatabase("simple_domain").GetCollection<TestLongEntity>("long_entities").DeleteMany(Builders<TestLongEntity>.Filter.Empty);
+            client.GetDatabase("simple_domain").GetCollection<TestStringEntity>("string_entities").DeleteMany(Builders<TestStringEntity>.Filter.Empty);
         }
 
         /// <summary>

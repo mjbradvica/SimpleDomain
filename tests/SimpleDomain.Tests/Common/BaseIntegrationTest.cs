@@ -5,6 +5,9 @@
 using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.Serializers;
 using SimpleDomain.Tests.GuidPrimary;
+using SimpleDomain.Tests.IntPrimary;
+using SimpleDomain.Tests.LongPrimary;
+using SimpleDomain.Tests.StringPrimary;
 
 namespace SimpleDomain.Tests.Common
 {
@@ -26,6 +29,30 @@ namespace SimpleDomain.Tests.Common
             if (!BsonClassMap.IsClassMapRegistered(typeof(TestGuidEntity)))
             {
                 BsonClassMap.RegisterClassMap<TestGuidEntity>(map =>
+                {
+                    map.AutoMap();
+                });
+            }
+
+            if (!BsonClassMap.IsClassMapRegistered(typeof(TestIntEntity)))
+            {
+                BsonClassMap.RegisterClassMap<TestIntEntity>(map =>
+                {
+                    map.AutoMap();
+                });
+            }
+
+            if (!BsonClassMap.IsClassMapRegistered(typeof(TestLongEntity)))
+            {
+                BsonClassMap.RegisterClassMap<TestLongEntity>(map =>
+                {
+                    map.AutoMap();
+                });
+            }
+
+            if (!BsonClassMap.IsClassMapRegistered(typeof(TestStringEntity)))
+            {
+                BsonClassMap.RegisterClassMap<TestStringEntity>(map =>
                 {
                     map.AutoMap();
                 });
