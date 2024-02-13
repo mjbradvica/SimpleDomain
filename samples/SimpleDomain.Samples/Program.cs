@@ -21,6 +21,8 @@ namespace SimpleDomain.Samples
             var flight = new Flight(133, airplane, money);
 
             Console.WriteLine(money);
+
+            Console.WriteLine(flight.Cost);
         }
     }
 }
