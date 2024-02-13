@@ -53,5 +53,5 @@ jobs:
       - name: Pack
         run: dotnet pack --no-build -c Release -o .
 
-      # - name: Publish
-      #   run: dotnet nuget push SimpleDomain.*.nupkg --source https://api.nuget.org/v3/index.json --api-key ${{ secrets.NUGET_KEY }} --skip-duplicate
+      - name: Publish
+        run: dotnet nuget push SimpleDomain.*.nupkg --source https://api.nuget.org/v3/index.json --api-key ${{ secrets.NUGET_KEY }} --skip-duplicate
