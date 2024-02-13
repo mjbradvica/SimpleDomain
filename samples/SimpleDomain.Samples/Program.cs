@@ -14,9 +14,11 @@ namespace SimpleDomain.Samples
         /// </summary>
         public static void Main()
         {
-            Console.WriteLine("Hello, World!");
+            var airplane = new Airplane(1);
 
-            var longEntity = new Airplane(1);
+            var money = Money.FromDollars(159);
+
+            var flight = new Flight(133, airplane, money);
         }
     }
 }
