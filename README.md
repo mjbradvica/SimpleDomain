@@ -40,6 +40,7 @@ SimpleDomain gives you:
     - [Do I need SimpleDomain if I'm not using Domain Driven Design?](#do-i-need-simpledomain-if-im-not-using-domain-driven-design)
     - [What's the difference between an Entity and ValueObject?](#whats-the-difference-between-an-entity-and-valueobject)
     - [What's the difference between an Entity and AggregateRoot?](#whats-the-difference-between-an-entity-and-aggregateroot)
+    - [Object Hierarchy Visualized](#object-hierarchy-visualized)
 
 ## Samples
 
@@ -49,7 +50,7 @@ If you would like code samples for SimpleDomain, they may be found [here](https:
 
 SimpleDomain supports any version of .NET that allows for C# 9.0 and above. This currently includes NET5, NET6, NET7, and NET8.
 
-NetStandard 2.1 is not supported.
+> NetStandard 2.1 is not supported. This is due to a design decision to use the "init" keyword for properties.
 
 ## Dependencies
 
@@ -196,6 +197,10 @@ public class CardUpdated : IDomainEvent
 }
 ```
 
+Use and publish a Domain Event when an Aggregate or model has something interesting to notify the rest of your application about.
+
+The main benefit of using events is that you can decouple your application from hard dependencies by publishing events and let consumers choose what they want, and what they want to do with it.
+
 ## Detailed Usage
 
 ### Entity Constraints
@@ -207,7 +212,9 @@ This may be used when trying to query your persistence and you only require the 
 ```csharp
 public async Task<int> DeleteEntity<T>(IEntity entity)
 {
-    await Context.Set<T>.Remove(entity);
+    var objValue = await Context.Set<T>.FindAsync(entity.Id);
+
+    await Context.Set<T>.Remove(objValue);
 
     return await Context.SaveChangesAsync();
 }
@@ -228,6 +235,8 @@ private async Task PublishEvents(IAggregateRoot aggregateRoot)
     }
 }
 ```
+
+The method above is a small example of how you can publish domain events inside an object Repository.
 
 ### Entity Encapsulation
 
@@ -282,7 +291,7 @@ If you wish to use an identifier type not provided you may extend the base class
 
 ### Do I need SimpleDomain if I'm not using Domain Driven Design?
 
-Domain Driven Design (DDD) is like a buffet, you can pick and choose what you want to use. You can still use aspects of SimpleDomain even if your application is not a full DDD implementation.
+Domain Driven Design (DDD) is a buffet, you can pick and choose what you want to use. You can still use aspects of SimpleDomain even if your application is not a full DDD implementation.
 
 ### What's the difference between an Entity and ValueObject?
 
@@ -290,12 +299,20 @@ An Entity has a unique identifier and equality is based on said identifier.
 
 A ValueObject has no identifier and equality is determined by individual property values.
 
-Dates, Names, Addresses, Time, and Money are all examples of ValueObjects.
+> Dates, Names, Addresses, Time, and Money are all examples of ValueObjects.
 
 ### What's the difference between an Entity and AggregateRoot?
 
 An AggregateRoot that defines an Aggregate is typically persisted via a Repository and is a logical barrier that contains other entities and value objects.
 
-All AggregateRoots are entities, but not all entities are AggregateRoots.
+Every AggregateRoot is an Entity, but not every Entity is an AggregateRoot.
 
 An entity is only accessed via the AggregateRoot that contains them. Entities may contain ValueObjects or references to other Entities.
+
+### Object Hierarchy Visualized
+
+ValueObjects and Entities at the bottom rung.
+
+Aggregates are composed of a single AggregateRoot that contains other Entities and ValueObjects at the next level.
+
+Finally, Aggregates are persisted via Repositories (not part of this package) and may publish DomainEvents exclusive to the model they represent.
