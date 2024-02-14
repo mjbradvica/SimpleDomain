@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFrameworks>net5.0;net6.0;net7.0;net8.0</TargetFrameworks>
@@ -24,11 +24,28 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Common\" />
+    <ProjectReference Include="..\..\source\ClearDomain\ClearDomain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\..\source\ClearDomain\ClearDomain.csproj" />
+  <ItemGroup Condition="'$(TargetFramework)' == 'net8.0'">
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer">
+      <Version>8.0.2</Version>
+    </PackageReference>
+  </ItemGroup>
+  <ItemGroup Condition="'$(TargetFramework)' == 'net7.0'">
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer">
+      <Version>7.0.16</Version>
+    </PackageReference>
+  </ItemGroup>
+  <ItemGroup Condition="'$(TargetFramework)' == 'net6.0'">
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer">
+      <Version>6.0.27</Version>
+    </PackageReference>
+  </ItemGroup>
+  <ItemGroup Condition="'$(TargetFramework)' == 'net5.0'">
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer">
+      <Version>5.0.17</Version>
+    </PackageReference>
   </ItemGroup>
 
 </Project>
