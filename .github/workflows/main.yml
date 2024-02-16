@@ -14,7 +14,7 @@ jobs:
       - name: Setup dotnet
         uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: | 
+          dotnet-version: |
             5.0.x
             6.0.x
             7.0.x
@@ -35,7 +35,7 @@ jobs:
         uses: Particular/install-sql-server-action@v1.0.2
         with:
           connection-string-env-var: TEST_CONNECTION_STRING
-          catalog: SimpleDomain
+          catalog: ClearDomain
           extra-params: "TrustServerCertificate=true;"
 
       - name: Restore
@@ -49,9 +49,9 @@ jobs:
 
       - name: Test
         run: dotnet test --no-build --verbosity normal -c Release /p:CollectCoverage=true /p:Threshold=100 /p:ThresholdType=branch
-      
+
       - name: Pack
         run: dotnet pack --no-build -c Release -o .
 
       - name: Publish
-        run: dotnet nuget push SimpleDomain.*.nupkg --source https://api.nuget.org/v3/index.json --api-key ${{ secrets.NUGET_KEY }} --skip-duplicate
+        run: dotnet nuget push ClearDomain.*.nupkg --source https://api.nuget.org/v3/index.json --api-key ${{ secrets.NUGET_KEY }} --skip-duplicate

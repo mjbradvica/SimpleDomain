@@ -1,14 +1,14 @@
-# SimpleDomain
+# ClearDomain
 
 A collection of base classes and interfaces for DDD (Domain Driven Design) projects.
 
 ![TempIcon](https://i.imgur.com/Aj5IVzo.jpg)
 
-![build-status](https://github.com/mjbradvica/SimpleDomain/workflows/main/badge.svg) ![downloads](https://img.shields.io/nuget/dt/SimpleDomain) ![downloads](https://img.shields.io/nuget/v/SimpleDomain) ![activity](https://img.shields.io/github/last-commit/mjbradvica/SimpleDomain/master)
+![build-status](https://github.com/mjbradvica/ClearDomain/workflows/main/badge.svg) ![downloads](https://img.shields.io/nuget/dt/ClearDomain) ![downloads](https://img.shields.io/nuget/v/ClearDomain) ![activity](https://img.shields.io/github/last-commit/mjbradvica/ClearDomain/master)
 
 ## Overview
 
-SimpleDomain gives you:
+ClearDomain gives you:
 
 - :seedling: Compact and straightforward API (3 classes and 3 interfaces)
 - :muscle: Flexible to your needs
@@ -17,7 +17,7 @@ SimpleDomain gives you:
 
 ## Table of Contents
 
-- [SimpleDomain](#simpledomain)
+- [ClearDomain](#cleardomain)
   - [Overview](#overview)
   - [Table of Contents](#table-of-contents)
   - [Samples](#samples)
@@ -37,38 +37,38 @@ SimpleDomain gives you:
     - [Domain Events with MediatR](#domain-events-with-mediatr)
     - [Using a Different Identifier Type](#using-a-different-identifier-type)
   - [FAQ](#faq)
-    - [Do I need SimpleDomain if I'm not using Domain Driven Design?](#do-i-need-simpledomain-if-im-not-using-domain-driven-design)
+    - [Do I need ClearDomain if I'm not using Domain Driven Design?](#do-i-need-cleardomain-if-im-not-using-domain-driven-design)
     - [What's the difference between an Entity and ValueObject?](#whats-the-difference-between-an-entity-and-valueobject)
     - [What's the difference between an Entity and AggregateRoot?](#whats-the-difference-between-an-entity-and-aggregateroot)
     - [Object Hierarchy Visualized](#object-hierarchy-visualized)
 
 ## Samples
 
-If you would like code samples for SimpleDomain, they may be found [here](https://github.com/mjbradvica/SimpleDomain/tree/master/samples/SimpleDomain.Samples).
+If you would like code samples for ClearDomain, they may be found [here](https://github.com/mjbradvica/ClearDomain/tree/master/samples/ClearDomain.Samples).
 
 ## Support
 
-SimpleDomain supports any version of .NET that allows for C# 9.0 and above. This currently includes NET5, NET6, NET7, and NET8.
+ClearDomain supports any version of .NET that allows for C# 9.0 and above. This currently includes NET5, NET6, NET7, and NET8.
 
 > NetStandard 2.1 is not supported. This is due to a design decision to use the "init" keyword for properties.
 
 ## Dependencies
 
-SimpleDomain has no dependencies on any external Microsoft or third-party packages.
+ClearDomain has no dependencies on any external Microsoft or third-party packages.
 
 ## Installation
 
-The easiest way to get started is to: [Install with NuGet](https://www.nuget.org/packages/SimpleDomain/).
+The easiest way to get started is to: [Install with NuGet](https://www.nuget.org/packages/ClearDomain/).
 
 Install where you need with:
 
 ```bash
-Install-Package SimpleDomain
+Install-Package ClearDomain
 ```
 
 ## Contents
 
-SimpleDomain gives you:
+ClearDomain gives you:
 
 Entities in either int, long, string, or Guid format with an interface constraint
 Value Objects with no generics or boiler-plate required
@@ -111,7 +111,7 @@ It's a good idea to stick to static initializers for value objects. The DateTime
 Use an Entity when an object must have a unique identifier associated with it or needs to be persisted in physical storage.
 
 ```csharp
-using SimpleDomain.GuidPrimary;
+using ClearDomain.GuidPrimary;
 
 // Guid based entity.
 public class Person : Entity
@@ -119,7 +119,7 @@ public class Person : Entity
 }
 ```
 
-> SimpleDomain supports entities with either int, long, string, or Guid based identifiers. The type you use is determined by the namespace you import.
+> ClearDomain supports entities with either int, long, string, or Guid based identifiers. The type you use is determined by the namespace you import.
 
 Entities use equality based on their identifiers.
 
@@ -184,11 +184,13 @@ public class ShoppingCart : AggregateRoot
 }
 ```
 
+The "AppendDomainEvent" method is virtual. You may override it to your liking.
+
 > Aggregate Roots are a more specialized kind of entity that serve as an entry point to a model in your application.
 
 ### Domain Events
 
-Domain Events in SimpleDomain need to be inherited from the [IDomainEvent](https://github.com/mjbradvica/SimpleDomain/blob/master/source/SimpleDomain/Common/IDomainEvent.cs) interface. This is an empty constraint used to enforce that all domain events are classes.
+Domain Events in ClearDomain need to be inherited from the [IDomainEvent](https://github.com/mjbradvica/ClearDomain/blob/master/source/ClearDomain/Common/IDomainEvent.cs) interface. This is an empty constraint used to enforce that all domain events are classes.
 
 ```csharp
 public class CardUpdated : IDomainEvent
@@ -205,7 +207,7 @@ The main benefit of using events is that you can decouple your application from 
 
 ### Entity Constraints
 
-All entities derive from a single interface [IEntity](https://github.com/mjbradvica/SimpleDomain/blob/master/source/SimpleDomain/Common/IEntity.cs) that contains a getter-only property for the identifier.
+All entities derive from a single interface [IEntity](https://github.com/mjbradvica/ClearDomain/blob/master/source/ClearDomain/Common/IEntity.cs) that contains a getter-only property for the identifier.
 
 This may be used when trying to query your persistence and you only require the single property.
 
@@ -222,7 +224,7 @@ public async Task<int> DeleteEntity<T>(IEntity entity)
 
 ### AggregateRoot Constraints
 
-All aggregate roots derive from a single interface [IAggregateRoot](https://github.com/mjbradvica/SimpleDomain/blob/master/source/SimpleDomain/Common/IAggregateRoot.cs) that contains an IEnumerable of current domain events.
+All aggregate roots derive from a single interface [IAggregateRoot](https://github.com/mjbradvica/ClearDomain/blob/master/source/ClearDomain/Common/IAggregateRoot.cs) that contains an IEnumerable of current domain events.
 
 Similar to the IEntity interface, you may use this to constrain a parameter when you just need the domain events.
 
@@ -243,7 +245,7 @@ The method above is a small example of how you can publish domain events inside 
 If you do not wish for your entities to expose an empty constructor, you may define a constructor with a parameter that must be called.
 
 ```csharp
-using SimpleDomain.StringPrimary;
+using ClearDomain.StringPrimary;
 
 public class Airplane : Entity
 {
@@ -269,7 +271,7 @@ public interface IEventNotification : INotification, IDomainEvent
 }
 ```
 
-Your new, simple interface will now be used.
+Your new interface will now be used.
 
 ```csharp
 public class CartUpdated : IEventNotification
@@ -289,9 +291,9 @@ If you wish to use an identifier type not provided you may extend the base class
 
 ## FAQ
 
-### Do I need SimpleDomain if I'm not using Domain Driven Design?
+### Do I need ClearDomain if I'm not using Domain Driven Design?
 
-Domain Driven Design (DDD) is a buffet, you can pick and choose what you want to use. You can still use aspects of SimpleDomain even if your application is not a full DDD implementation.
+Domain Driven Design (DDD) is a buffet, you can pick and choose what you want to use. You can still use aspects of ClearDomain even if your application is not a full DDD implementation.
 
 ### What's the difference between an Entity and ValueObject?
 

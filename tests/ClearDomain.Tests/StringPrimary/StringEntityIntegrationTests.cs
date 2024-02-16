@@ -195,7 +195,7 @@ namespace ClearDomain.Tests.StringPrimary
         {
             var client = new MongoClient(TestHelpers.MongoConnectionString());
 
-            var collection = client.GetDatabase("simple_domain").GetCollection<TestStringEntity>("string_entities");
+            var collection = client.GetDatabase("clear_domain").GetCollection<TestStringEntity>("string_entities");
 
             await collection.InsertOneAsync(new TestStringEntity());
         }
@@ -211,7 +211,7 @@ namespace ClearDomain.Tests.StringPrimary
 
             var client = new MongoClient(TestHelpers.MongoConnectionString());
 
-            var collection = client.GetDatabase("simple_domain").GetCollection<TestStringEntity>("string_entities");
+            var collection = client.GetDatabase("clear_domain").GetCollection<TestStringEntity>("string_entities");
 
             await collection.InsertOneAsync(new TestStringEntity(id));
 

@@ -196,7 +196,7 @@ namespace ClearDomain.Tests.GuidPrimary
         {
             var client = new MongoClient(TestHelpers.MongoConnectionString());
 
-            var collection = client.GetDatabase("simple_domain").GetCollection<TestGuidEntity>("guid_entities");
+            var collection = client.GetDatabase("clear_domain").GetCollection<TestGuidEntity>("guid_entities");
 
             await collection.InsertOneAsync(new TestGuidEntity(Guid.NewGuid()));
         }
@@ -212,7 +212,7 @@ namespace ClearDomain.Tests.GuidPrimary
 
             var client = new MongoClient(TestHelpers.MongoConnectionString());
 
-            var collection = client.GetDatabase("simple_domain").GetCollection<TestGuidEntity>("guid_entities");
+            var collection = client.GetDatabase("clear_domain").GetCollection<TestGuidEntity>("guid_entities");
 
             await collection.InsertOneAsync(new TestGuidEntity(id));
 
