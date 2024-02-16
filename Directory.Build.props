@@ -2,10 +2,10 @@
     <PropertyGroup>
         <EnableNETAnalyzers>True</EnableNETAnalyzers>
         <EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
+        <ImplicitUsings>disable</ImplicitUsings>
         <AnalysisLevel>latest</AnalysisLevel>
         <GenerateDocumentationFile>True</GenerateDocumentationFile>
         <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
-        <ImplicitUsings>disable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <CheckEolTargetFramework>false</CheckEolTargetFramework>
     </PropertyGroup>
@@ -16,4 +16,5 @@
         </PackageReference>
         <AdditionalFiles Include="../../.stylecop.json" Link=".stylecop.json" />
     </ItemGroup>
+  
 </Project>

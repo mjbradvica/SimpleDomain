@@ -1,0 +1,30 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>net5.0;net6.0;net7.0;net8.0</TargetFrameworks>
+    <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
+	  <Title>ClearDomain</Title>
+	  <Authors>Michael Bradvica</Authors>
+	  <Company>Michael Bradvica LLC.</Company>
+	  <Description>A set of domain base classes and interfaces for .NET.</Description>
+	  <Copyright>Copyright 2024. All rights reserved.</Copyright>
+	  <PackageProjectUrl>https://github.com/mjbradvica/ClearDomain</PackageProjectUrl>
+	  <PackageReadmeFile>README.md</PackageReadmeFile>
+	  <RepositoryUrl>https://github.com/mjbradvica/ClearDomain</RepositoryUrl>
+	  <PackageTags>ddd, domain, domain driven design</PackageTags>
+	  <PackageLicenseFile>LICENSE</PackageLicenseFile>
+	  <Version>0.9.0</Version>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\..\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+    <None Include="..\..\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+
+</Project>
