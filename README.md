@@ -39,7 +39,7 @@ ClearDomain gives you:
   - [FAQ](#faq)
     - [Do I need ClearDomain if I'm not using Domain Driven Design?](#do-i-need-cleardomain-if-im-not-using-domain-driven-design)
     - [What's the difference between an Entity and ValueObject?](#whats-the-difference-between-an-entity-and-valueobject)
-    - [What's the difference between an Entity and AggregateRoot?](#whats-the-difference-between-an-entity-and-aggregateroot)
+    - [What's the difference between an Entity and an AggregateRoot?](#whats-the-difference-between-an-entity-and-aggregateroot)
     - [Object Hierarchy Visualized](#object-hierarchy-visualized)
 
 ## Samples
