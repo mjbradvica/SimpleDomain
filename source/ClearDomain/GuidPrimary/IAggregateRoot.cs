@@ -7,8 +7,10 @@ using ClearDomain.Common;
 
 namespace ClearDomain.GuidPrimary
 {
-    /// <inheritdoc />
-    public interface IAggregateRoot : IAggregateRoot<Guid>
+    /// <summary>
+    /// Interface constraint for a <see cref="Guid"/> AggregateRoot.
+    /// </summary>
+    public interface IAggregateRoot : IAggregateRoot<Guid>, IEntity
     {
     }
 }
