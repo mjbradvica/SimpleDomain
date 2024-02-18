@@ -240,6 +240,8 @@ private async Task PublishEvents(IAggregateRoot aggregateRoot)
 
 The method above is a small example of how you can publish domain events inside an object Repository.
 
+> Aggregate Roots have all other downstream constraints such as IEntity
+
 ### Entity Encapsulation
 
 If you do not wish for your entities to expose an empty constructor, you may define a constructor with a parameter that must be called.
