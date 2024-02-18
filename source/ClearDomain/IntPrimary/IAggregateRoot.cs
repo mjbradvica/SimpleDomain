@@ -6,8 +6,10 @@ using ClearDomain.Common;
 
 namespace ClearDomain.IntPrimary
 {
-    /// <inheritdoc />
-    public interface IAggregateRoot : IAggregateRoot<int>
+    /// <summary>
+    /// Interface constraint for a <see cref="int"/> AggregateRoot.
+    /// </summary>
+    public interface IAggregateRoot : IAggregateRoot<int>, IEntity
     {
     }
 }
