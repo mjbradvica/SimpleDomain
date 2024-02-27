@@ -12,7 +12,7 @@ ClearDomain gives you:
 
 - :seedling: Compact and straightforward API (3 classes and 3 interfaces)
 - :muscle: Flexible to your needs
-- :test_tube: Reliable, consistent behavior
+- :house: Reliable, consistent behavior
 - :minidisc: Works with ADO.NET, Dapper, EF, and MongoDB
 
 ## Table of Contents
@@ -39,7 +39,7 @@ ClearDomain gives you:
   - [FAQ](#faq)
     - [Do I need ClearDomain if I'm not using Domain Driven Design?](#do-i-need-cleardomain-if-im-not-using-domain-driven-design)
     - [What's the difference between an Entity and ValueObject?](#whats-the-difference-between-an-entity-and-valueobject)
-    - [What's the difference between an Entity and an AggregateRoot?](#whats-the-difference-between-an-entity-and-aggregateroot)
+    - [What's the difference between an Entity and AggregateRoot?](#whats-the-difference-between-an-entity-and-aggregateroot)
     - [Object Hierarchy Visualized](#object-hierarchy-visualized)
 
 ## Samples
@@ -70,10 +70,10 @@ Install-Package ClearDomain
 
 ClearDomain gives you:
 
-Entities in either int, long, string, or Guid format with an interface constraint
-Value Objects with no generics or boiler-plate required
-Aggregate Roots with an interface constraint
-An empty interface used to constrain a Domain Event
+- Entities in either int, long, string, or Guid format with an interface constraint
+- Value Objects with no generics or boiler-plate required
+- Aggregate Roots with an interface constraint
+- An empty interface used to constrain a Domain Event
 
 ## Quick Start
 
@@ -240,6 +240,8 @@ private async Task PublishEvents(IAggregateRoot aggregateRoot)
 
 The method above is a small example of how you can publish domain events inside an object Repository.
 
+> Aggregate Roots have all other downstream constraints such as IEntity
+
 ### Entity Encapsulation
 
 If you do not wish for your entities to expose an empty constructor, you may define a constructor with a parameter that must be called.
@@ -286,7 +288,7 @@ If you wish to use an identifier type not provided you may extend the base class
 
 1. Create an interface "IEntity" that extends from IEntity of type T where T is your new type
 2. Create an abstract class "Entity" that extends from both Entity of T and your IEntity interface, and implement constructors as needed
-3. Create an interface "IAggregateRoot" that extends from IAggregateRoot of type T where T is your new type
+3. Create an interface "IAggregateRoot" that extends from IAggregateRoot of type T where T is your new type and your closed "IEntity" interface
 4. Create an abstract class "AggregateRoot" that extends from both AggregateRoot of T and your IAggregateRoot interface, and implement constructors as needed
 
 ## FAQ
