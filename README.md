@@ -158,17 +158,17 @@ var isEmpty = person.Id == Guid.Empty;
 // false
 ```
 
-> If you don't know which identifier to go with, it is **highly recommended** to start with either GUIDs or strings.
+> If you don't know which identifier to use, it is **highly recommended** to start with either GUIDs or strings.
 
 ### Aggregate Roots
 
 An AggregateRoot is a designator for a logical boundary of entities and value objects.
 
-AggregateRoots may contain domain events that other parts of your application may react to.
+AggregateRoots may contain domain events that react with other parts of your application.
 
-Typically these domain events are published when the aggregate root is saved, updated, or removed from persistence.
+Typically, these domain events are published when the aggregate root is saved, updated, or removed from persistence.
 
-The following is a small example of a theoretical aggregate root that contains a list of items.
+The following is a small example of a theoretical aggregate root that contains a list of items:
 
 ```csharp
 public class ShoppingCart : AggregateRoot
@@ -201,7 +201,7 @@ public class CardUpdated : IDomainEvent
 
 Use and publish a Domain Event when an Aggregate or model has something interesting to notify the rest of your application about.
 
-The main benefit of using events is that you can decouple your application from hard dependencies by publishing events and let consumers choose what they want, and what they want to do with it.
+The main benefit of using events is the ability to decouple your application from hard dependencies by publishing events. Customers may subscribe to specific events to implement accordingly.
 
 ## Detailed Usage
 
@@ -265,7 +265,7 @@ var correct = new Airplane(Guid.NewGuid().ToString());
 
 ### Domain Events with MediatR
 
-If you are using [MediatR](https://github.com/jbogard/MediatR) to publish events. It may be easier to create an interface that aggregates the interfaces necessary.
+If you are using [MediatR](https://github.com/jbogard/MediatR) to publish events, it may be easier to create an interface that aggregates the interfaces necessary.
 
 ```csharp
 public interface IEventNotification : INotification, IDomainEvent
@@ -287,15 +287,15 @@ public class CartUpdated : IEventNotification
 If you wish to use an identifier type not provided you may extend the base classes.
 
 1. Create an interface "IEntity" that extends from IEntity of type T where T is your new type
-2. Create an abstract class "Entity" that extends from both Entity of T and your IEntity interface, and implement constructors as needed
+2. Create an abstract class "Entity" that extends from both Entity of T and your IEntity interface, then implement constructors as needed
 3. Create an interface "IAggregateRoot" that extends from IAggregateRoot of type T where T is your new type and your closed "IEntity" interface
-4. Create an abstract class "AggregateRoot" that extends from both AggregateRoot of T and your IAggregateRoot interface, and implement constructors as needed
+4. Create an abstract class "AggregateRoot" that extends from both AggregateRoot of T and your IAggregateRoot interface, then implement constructors as needed
 
 ## FAQ
 
 ### Do I need ClearDomain if I'm not using Domain Driven Design?
 
-Domain Driven Design (DDD) is a buffet, you can pick and choose what you want to use. You can still use aspects of ClearDomain even if your application is not a full DDD implementation.
+Domain Driven Design (DDD) is a buffet. You can pick and choose what you want to use. You can still use aspects of ClearDomain even if your application is not a full DDD implementation.
 
 ### What's the difference between an Entity and ValueObject?
 
