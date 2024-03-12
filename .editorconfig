@@ -76,8 +76,8 @@ dotnet_diagnostic.CA1859.severity = none
 dotnet_diagnostic.IDE0270.severity = none
 dotnet_diagnostic.IDE0290.severity = none
 dotnet_diagnostic.IDE0305.severity = none
-dotnet_diagnostic.IDE0028.severity = silent
-dotnet_diagnostic.IDE0063.severity = silent
+dotnet_diagnostic.IDE0028.severity = none
+dotnet_diagnostic.IDE0063.severity = none
 dotnet_diagnostic.IDE0090.severity = none
 
 csharp_style_prefer_primary_constructors = true:suggestion

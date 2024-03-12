@@ -17,6 +17,11 @@ namespace ClearDomain.Common
         /// </summary>
         protected Entity()
         {
+            /*
+             * We can't use the struct generic constraint because we support strings.
+             * The identifier value will never be null because the string version always initializes itself.
+             * The compiler has no knowledge of this, thus the bang operator is required.
+             */
             Id = default!;
         }
 
