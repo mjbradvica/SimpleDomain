@@ -24,6 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\source\ClearDomain.Identity\ClearDomain.Identity.csproj" />
     <ProjectReference Include="..\..\source\ClearDomain\ClearDomain.csproj" />
   </ItemGroup>
 

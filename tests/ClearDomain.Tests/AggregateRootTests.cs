@@ -52,6 +52,13 @@ namespace ClearDomain.Tests
         }
 
         /// <summary>
+        /// Test domain event.
+        /// </summary>
+        public class TestDomainEvent : IDomainEvent
+        {
+        }
+
+        /// <summary>
         /// Test aggregate root.
         /// </summary>
         internal class TestAggregateRoot : AggregateRoot
@@ -71,13 +78,6 @@ namespace ClearDomain.Tests
                 : base(id)
             {
             }
-        }
-
-        /// <summary>
-        /// Test domain event.
-        /// </summary>
-        internal class TestDomainEvent : IDomainEvent
-        {
         }
     }
 }
