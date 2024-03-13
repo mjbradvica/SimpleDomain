@@ -10,7 +10,8 @@ namespace ClearDomain.Common
     /// A base class for entities.
     /// </summary>
     /// <typeparam name="T">The type of the entity identifier.</typeparam>
-    public abstract class Entity<T> : IEntity<T>, IEquatable<Entity<T>>
+    public abstract class Entity<T> : IEntity<T>, IEquatable<IEntity<T>>
+        where T : IEquatable<T>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Entity{T}"/> class.
@@ -75,7 +76,7 @@ namespace ClearDomain.Common
         /// </summary>
         /// <param name="other">The other entity to compare.</param>
         /// <returns>A <see cref="bool"/> indicating if the objects are equal.</returns>
-        public bool Equals(Entity<T>? other)
+        public bool Equals(IEntity<T>? other)
         {
             if (other == null)
             {
@@ -97,7 +98,7 @@ namespace ClearDomain.Common
         /// <returns>A <see cref="bool"/> indicating if the objects are equal.</returns>
         public override bool Equals(object? obj)
         {
-            if (obj is Entity<T> entity)
+            if (obj is IEntity<T> entity)
             {
                 return Equals(entity);
             }

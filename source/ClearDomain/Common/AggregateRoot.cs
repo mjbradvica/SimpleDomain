@@ -2,6 +2,7 @@
 // Copyright (c) Michael Bradvica LLC. All rights reserved.
 // </copyright>
 
+using System;
 using System.Collections.Generic;
 
 namespace ClearDomain.Common
@@ -11,6 +12,7 @@ namespace ClearDomain.Common
     /// </summary>
     /// <typeparam name="T">The type of the identifier.</typeparam>
     public abstract class AggregateRoot<T> : Entity<T>, IAggregateRoot<T>
+        where T : IEquatable<T>
     {
         private readonly List<IDomainEvent> _domainEvents;
 

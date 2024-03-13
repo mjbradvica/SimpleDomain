@@ -4,10 +4,10 @@
 
 using ClearDomain.Identity.Common;
 
-namespace ClearDomain.Identity.StringPrimary
+namespace ClearDomain.Identity.LongPrimary
 {
     /// <inheritdoc />
-    public abstract class ClearDomainIdentityUser : ClearDomainIdentityUser<string>
+    public abstract class ClearDomainIdentityUser : ClearDomainIdentityUser<long>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ClearDomainIdentityUser"/> class.
