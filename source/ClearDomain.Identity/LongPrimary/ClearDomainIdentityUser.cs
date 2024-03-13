@@ -3,11 +3,14 @@
 // </copyright>
 
 using ClearDomain.Identity.Common;
+using ClearDomain.LongPrimary;
 
 namespace ClearDomain.Identity.LongPrimary
 {
-    /// <inheritdoc />
-    public abstract class ClearDomainIdentityUser : ClearDomainIdentityUser<long>
+    /// <summary>
+    /// Base class for a <see cref="long"/> identity user with ClearDomain functionality.
+    /// </summary>
+    public abstract class ClearDomainIdentityUser : ClearDomainIdentityUser<long>, IAggregateRoot
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ClearDomainIdentityUser"/> class.

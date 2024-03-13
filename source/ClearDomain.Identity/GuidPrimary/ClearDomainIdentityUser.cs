@@ -3,12 +3,15 @@
 // </copyright>
 
 using System;
+using ClearDomain.GuidPrimary;
 using ClearDomain.Identity.Common;
 
 namespace ClearDomain.Identity.GuidPrimary
 {
-    /// <inheritdoc />
-    public abstract class ClearDomainIdentityUser : ClearDomainIdentityUser<Guid>
+    /// <summary>
+    /// Base class for a <see cref="Guid"/> identity user with ClearDomain functionality.
+    /// </summary>
+    public abstract class ClearDomainIdentityUser : ClearDomainIdentityUser<Guid>, IAggregateRoot
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ClearDomainIdentityUser"/> class.
