@@ -4,6 +4,8 @@
 
 using System;
 using System.Linq;
+using ClearDomain.Common;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace ClearDomain.Tests.Identity
@@ -150,6 +152,19 @@ namespace ClearDomain.Tests.Identity
             user.AppendDomainEvent(new AggregateRootTests.TestDomainEvent());
 
             Assert.AreEqual(1, user.DomainEvents.Count());
+        }
+
+        /// <summary>
+        /// Class has correct types.
+        /// </summary>
+        [TestMethod]
+        public void Class_HasCorrectTypes()
+        {
+            var user = new TestIdentityUser();
+
+            Assert.IsInstanceOfType<IdentityUser<string>>(user);
+            Assert.IsInstanceOfType<IAggregateRoot<string>>(user);
+            Assert.IsInstanceOfType<IEquatable<IEntity<string>>>(user);
         }
     }
 }

@@ -52,6 +52,22 @@ namespace ClearDomain.Tests
         }
 
         /// <summary>
+        /// Ensures an aggregate root has the correct types.
+        /// </summary>
+        [TestMethod]
+        public void AggregateRoot_HasTheCorrectTypes()
+        {
+            var root = new TestAggregateRoot();
+
+            Assert.IsInstanceOfType<Entity<Guid>>(root);
+            Assert.IsInstanceOfType<IAggregateRoot<Guid>>(root);
+
+            IEntity<Guid> secondRoot = new TestAggregateRoot();
+
+            Assert.IsInstanceOfType<IEntity<Guid>>(secondRoot);
+        }
+
+        /// <summary>
         /// Test domain event.
         /// </summary>
         public class TestDomainEvent : IDomainEvent
