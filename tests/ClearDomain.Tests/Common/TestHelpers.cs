@@ -26,6 +26,11 @@ namespace ClearDomain.Tests.Common
                 context.GuidEntities.RemoveRange(context.GuidEntities);
                 context.IntEntities.RemoveRange(context.IntEntities);
                 context.LongEntities.RemoveRange(context.LongEntities);
+                context.StringEntities.RemoveRange(context.StringEntities);
+                context.GuidIdentityUsers.RemoveRange(context.GuidIdentityUsers);
+                context.IntIdentityUsers.RemoveRange(context.IntIdentityUsers);
+                context.LongIdentityUsers.RemoveRange(context.LongIdentityUsers);
+                context.StringIdentityUsers.RemoveRange(context.StringIdentityUsers);
 
                 context.SaveChanges();
             }

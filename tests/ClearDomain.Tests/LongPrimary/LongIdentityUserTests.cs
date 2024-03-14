@@ -21,7 +21,7 @@ namespace ClearDomain.Tests.LongPrimary
         [TestMethod]
         public void Class_HasDefaultConstructor()
         {
-            var user = new TestIdentityUser();
+            var user = new TestLongIdentityUser();
 
             Assert.IsNotNull(user);
         }
@@ -32,7 +32,7 @@ namespace ClearDomain.Tests.LongPrimary
         [TestMethod]
         public void Class_HasUsernameConstructor()
         {
-            var user = new TestIdentityUser("user");
+            var user = new TestLongIdentityUser("user");
 
             Assert.IsNotNull(user);
         }
@@ -43,32 +43,10 @@ namespace ClearDomain.Tests.LongPrimary
         [TestMethod]
         public void Class_HasCorrectTypes()
         {
-            var user = new TestIdentityUser();
+            var user = new TestLongIdentityUser();
 
             Assert.IsInstanceOfType<ClearDomainIdentityUser<long>>(user);
             Assert.IsInstanceOfType<IAggregateRoot>(user);
-        }
-
-        /// <summary>
-        /// Test class.
-        /// </summary>
-        internal class TestIdentityUser : ClearDomainIdentityUser
-        {
-            /// <summary>
-            /// Initializes a new instance of the <see cref="TestIdentityUser"/> class.
-            /// </summary>
-            public TestIdentityUser()
-            {
-            }
-
-            /// <summary>
-            /// Initializes a new instance of the <see cref="TestIdentityUser"/> class.
-            /// </summary>
-            /// <param name="username">The username.</param>
-            public TestIdentityUser(string username)
-            : base(username)
-            {
-            }
         }
     }
 }

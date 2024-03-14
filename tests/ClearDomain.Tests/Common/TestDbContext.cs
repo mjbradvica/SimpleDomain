@@ -26,6 +26,10 @@ namespace ClearDomain.Tests.Common
             IntEntities = Set<TestIntEntity>();
             LongEntities = Set<TestLongEntity>();
             StringEntities = Set<TestStringEntity>();
+            GuidIdentityUsers = Set<TestGuidIdentityUser>();
+            IntIdentityUsers = Set<TestIntIdentityUser>();
+            LongIdentityUsers = Set<TestLongIdentityUser>();
+            StringIdentityUsers = Set<TestStringIdentityUser>();
         }
 
         /// <summary>
@@ -48,6 +52,26 @@ namespace ClearDomain.Tests.Common
         /// </summary>
         public DbSet<TestStringEntity> StringEntities { get; }
 
+        /// <summary>
+        /// Gets the guid user set.
+        /// </summary>
+        public DbSet<TestGuidIdentityUser> GuidIdentityUsers { get; }
+
+        /// <summary>
+        /// Gets the int user set.
+        /// </summary>
+        public DbSet<TestIntIdentityUser> IntIdentityUsers { get; }
+
+        /// <summary>
+        /// Gets the long user set.
+        /// </summary>
+        public DbSet<TestLongIdentityUser> LongIdentityUsers { get; }
+
+        /// <summary>
+        /// Gets the string user set.
+        /// </summary>
+        public DbSet<TestStringIdentityUser> StringIdentityUsers { get; }
+
         /// <inheritdoc />
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -58,11 +82,19 @@ namespace ClearDomain.Tests.Common
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<TestIntEntity>()
-                .Property(x => x.Id)
+                .Property(entity => entity.Id)
                 .ValueGeneratedOnAdd();
 
             modelBuilder.Entity<TestLongEntity>()
-                .Property(x => x.Id)
+                .Property(entity => entity.Id)
+                .ValueGeneratedOnAdd();
+
+            modelBuilder.Entity<TestIntIdentityUser>()
+                .Property(user => user.Id)
+                .ValueGeneratedOnAdd();
+
+            modelBuilder.Entity<TestLongIdentityUser>()
+                .Property(user => user.Id)
                 .ValueGeneratedOnAdd();
         }
     }

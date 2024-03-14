@@ -22,7 +22,7 @@ namespace ClearDomain.Tests.GuidPrimary
         [TestMethod]
         public void Class_HasDefaultConstructor()
         {
-            var user = new TestIdentityUser();
+            var user = new TestGuidIdentityUser();
 
             Assert.IsNotNull(user);
         }
@@ -33,7 +33,7 @@ namespace ClearDomain.Tests.GuidPrimary
         [TestMethod]
         public void Class_HasUsernameConstructor()
         {
-            var user = new TestIdentityUser("username");
+            var user = new TestGuidIdentityUser("username");
 
             Assert.IsNotNull(user);
         }
@@ -44,32 +44,10 @@ namespace ClearDomain.Tests.GuidPrimary
         [TestMethod]
         public void Class_HasCorrectTypes()
         {
-            var user = new TestIdentityUser();
+            var user = new TestGuidIdentityUser();
 
             Assert.IsInstanceOfType<ClearDomainIdentityUser<Guid>>(user);
             Assert.IsInstanceOfType<IAggregateRoot>(user);
-        }
-
-        /// <summary>
-        /// Test class.
-        /// </summary>
-        internal class TestIdentityUser : ClearDomainIdentityUser
-        {
-            /// <summary>
-            /// Initializes a new instance of the <see cref="TestIdentityUser"/> class.
-            /// </summary>
-            public TestIdentityUser()
-            {
-            }
-
-            /// <summary>
-            /// Initializes a new instance of the <see cref="TestIdentityUser"/> class.
-            /// </summary>
-            /// <param name="username">The username.</param>
-            public TestIdentityUser(string username)
-                : base(username)
-            {
-            }
         }
     }
 }

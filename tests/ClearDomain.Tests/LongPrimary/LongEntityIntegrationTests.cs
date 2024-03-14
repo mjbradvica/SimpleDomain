@@ -59,6 +59,46 @@ namespace ClearDomain.Tests.LongPrimary
         }
 
         /// <summary>
+        /// Ensures an identity user can be persisted correctly.
+        /// </summary>
+        /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
+        [TestMethod]
+        public async Task IdentityUser_EF_CanBePersisted()
+        {
+            await using (var context = new TestDbContext())
+            {
+                var user = new TestLongIdentityUser();
+
+                await context.LongIdentityUsers.AddAsync(user);
+
+                await context.SaveChangesAsync();
+            }
+        }
+
+        /// <summary>
+        /// Ensures an identity user can be retrieved correctly.
+        /// </summary>
+        /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
+        [TestMethod]
+        public async Task IdentityUser_EF_CanBeRetrieved()
+        {
+            await using (var context = new TestDbContext())
+            {
+                await context.LongIdentityUsers.AddAsync(new TestLongIdentityUser());
+
+                await context.SaveChangesAsync();
+            }
+
+            await using (var context = new TestDbContext())
+            {
+                var result = await context.LongIdentityUsers.ToListAsync();
+
+                Assert.IsNotNull(result.First());
+                Assert.IsTrue(result.First().Id > 0);
+            }
+        }
+
+        /// <summary>
         /// Ensures an entity can be persisted correctly.
         /// </summary>
         /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>

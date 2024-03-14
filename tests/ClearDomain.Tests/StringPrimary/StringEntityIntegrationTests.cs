@@ -60,6 +60,51 @@ namespace ClearDomain.Tests.StringPrimary
         }
 
         /// <summary>
+        /// Ensures an identity user can be persisted correctly.
+        /// </summary>
+        /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
+        [TestMethod]
+        public async Task IdentityUser_EF_CanBePersisted()
+        {
+            await using (var context = new TestDbContext())
+            {
+                var user = new TestStringIdentityUser
+                {
+                    Id = Guid.NewGuid().ToString(),
+                };
+
+                await context.StringIdentityUsers.AddAsync(user);
+
+                await context.SaveChangesAsync();
+            }
+        }
+
+        /// <summary>
+        /// Ensures an identity user can be retrieved correctly.
+        /// </summary>
+        /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
+        [TestMethod]
+        public async Task IdentityUser_EF_CanBeRetrieved()
+        {
+            var id = Guid.NewGuid().ToString();
+
+            await using (var context = new TestDbContext())
+            {
+                await context.StringIdentityUsers.AddAsync(new TestStringIdentityUser { Id = id });
+
+                await context.SaveChangesAsync();
+            }
+
+            await using (var context = new TestDbContext())
+            {
+                var result = await context.StringIdentityUsers.FindAsync(id);
+
+                Assert.IsNotNull(result);
+                Assert.AreEqual(id, result.Id);
+            }
+        }
+
+        /// <summary>
         /// Ensures an entity can be persisted correctly.
         /// </summary>
         /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
