@@ -14,6 +14,7 @@ ClearDomain gives you:
 - :muscle: Flexible to your needs
 - :house: Reliable, consistent behavior
 - :minidisc: Works with ADO.NET, Dapper, EF, and MongoDB
+- :detective: ASP.NET Identity support
 
 ## Table of Contents
 
@@ -30,17 +31,21 @@ ClearDomain gives you:
     - [Entities](#entities)
     - [Aggregate Roots](#aggregate-roots)
     - [Domain Events](#domain-events)
+    - [Identity User](#identity-user)
   - [Detailed Usage](#detailed-usage)
     - [Entity Constraints](#entity-constraints)
     - [AggregateRoot Constraints](#aggregateroot-constraints)
-    - [Entity Encapsulation](#entity-encapsulation)
+    - [Entity \& AggregateRoot Encapsulation](#entity--aggregateroot-encapsulation)
     - [Domain Events with MediatR](#domain-events-with-mediatr)
     - [Using a Different Identifier Type](#using-a-different-identifier-type)
+  - [Identity User Creation](#identity-user-creation)
+  - [Identity User Types](#identity-user-types)
   - [FAQ](#faq)
     - [Do I need ClearDomain if I'm not using Domain Driven Design?](#do-i-need-cleardomain-if-im-not-using-domain-driven-design)
     - [What's the difference between an Entity and ValueObject?](#whats-the-difference-between-an-entity-and-valueobject)
     - [What's the difference between an Entity and AggregateRoot?](#whats-the-difference-between-an-entity-and-aggregateroot)
     - [Object Hierarchy Visualized](#object-hierarchy-visualized)
+    - [How is equality for Entities and AggregateRoots calculated?](#how-is-equality-for-entities-and-aggregateroots-calculated)
 
 ## Samples
 
@@ -56,6 +61,8 @@ ClearDomain supports any version of .NET that allows for C# 9.0 and above. This 
 
 ClearDomain has no dependencies on any external Microsoft or third-party packages.
 
+ClearDomain.Identity has a dependency on the ClearDomain base package and the [Microsoft.Extensions.Identity.Stores](https://www.nuget.org/packages/Microsoft.Extensions.Identity.Stores) package.
+
 ## Installation
 
 The easiest way to get started is to: [Install with NuGet](https://www.nuget.org/packages/ClearDomain/).
@@ -66,6 +73,12 @@ Install where you need with:
 Install-Package ClearDomain
 ```
 
+If you are using the Identity version:
+
+```bash
+Install-Package ClearDomain.Identity
+```
+
 ## Contents
 
 ClearDomain gives you:
@@ -74,6 +87,12 @@ ClearDomain gives you:
 - Value Objects with no generics or boiler-plate required
 - Aggregate Roots with an interface constraint
 - An empty interface used to constrain a Domain Event
+
+ClearDomain.Identity provides:
+
+- All of the above
+- An IdentityUser class variant in integer, string, long, or Guid format
+  with the same Aggregate Root behavior and interface constraints
 
 ## Quick Start
 
@@ -203,6 +222,34 @@ Use and publish a Domain Event when an Aggregate or model has something interest
 
 The main benefit of using events is the ability to decouple your application from hard dependencies by publishing events. Customers may subscribe to specific events to implement accordingly.
 
+### Identity User
+
+The base IdentityUser class has been extended to support the same interfaces as Entities and Aggregate Roots.
+
+Have your class inherit from the [ClearDomainIdentityUser](https://github.com/mjbradvica/ClearDomain/blob/development/source/ClearDomain.Identity/Common/ClearDomainIdentityUser.cs) class of your choice. As always, the type of the identifier is determined by what namespace you import.
+
+> Unlike other Guid and string variants, the IdentityUser versions do no automatically create an identifier for you.
+
+All of the ClearDomainIdentityUser base classes have the same constructors as the standard IdentityUser class. This is due to almost all properties being virtual.
+
+```csharp
+using ClearDomain.Identity.GuidPrimary;
+
+public sealed class Customer : ClearDomainIdentityUser
+{
+    public Customer(string username)
+    {
+        Id = Guid.NewGuid();
+        Username = username;
+        SecurityStamp = Guid.NewGuid().ToString();
+    }
+}
+
+var customer = new Customer("mikeBrad123");
+```
+
+It is highly recommended to apply the sealed keyword to avoid virtual calls in the constructor.
+
 ## Detailed Usage
 
 ### Entity Constraints
@@ -242,7 +289,7 @@ The method above is a small example of how you can publish domain events inside 
 
 > Aggregate Roots have all other downstream constraints such as IEntity
 
-### Entity Encapsulation
+### Entity & AggregateRoot Encapsulation
 
 If you do not wish for your entities to expose an empty constructor, you may define a constructor with a parameter that must be called.
 
@@ -262,6 +309,10 @@ var incorrect = new Airplane();
 
 var correct = new Airplane(Guid.NewGuid().ToString());
 ```
+
+You may do the same for your AggregateRoots.
+
+> The Microsoft base IdentityUser class has full public getters and setters. Utilizing constructors for your IdentityUser classes may not be worth it.
 
 ### Domain Events with MediatR
 
@@ -291,6 +342,63 @@ If you wish to use an identifier type not provided you may extend the base class
 3. Create an interface "IAggregateRoot" that extends from IAggregateRoot of type T where T is your new type and your closed "IEntity" interface
 4. Create an abstract class "AggregateRoot" that extends from both AggregateRoot of T and your IAggregateRoot interface, then implement constructors as needed
 
+## Identity User Creation
+
+Due to the base properties being virtual, all ClearDomainIdentityUser classes have limited functionality in their constructors. The two biggest takeaways are:
+
+1) You need to initialize the identifier value.
+2) There are no null or empty identifier checks built in.
+
+Even though all of the properties have public setters. You can still force an end-user to instantiate via a constructor.
+
+```csharp
+using ClearDomain.Identity.GuidPrimary;
+
+public sealed class Customer : ClearDomainIdentityUser
+{
+    public Customer(Guid id, string userName)
+    {
+        Id = id;
+
+        if (Id == Guid.Empty)
+        {
+            throw new NullReferenceException(nameof(Id));
+        }
+
+        UserName = userName;
+        SecurityStamp = Guid.NewGuid().ToString();
+    }
+}
+
+var customer = new Customer(Guid.NewGuid(), "mikeBrad123");
+
+// still possible
+customer.Id = Guid.Empty;
+```
+
+## Identity User Types
+
+All ClearDomainIdentityUser classes inherit from the same interfaces as normal Entities and AggregateRoots, but they do not share the same base classes.
+
+This is due to only being able to inherit from a single concrete class in C#.
+
+Here is a chart to help you visualize type comparisons:
+
+| Type | Inherits From |
+| ---- | ------------- |
+| IEquatable of IEntity of T | Yes |
+| IEntity of T | Yes |
+| IEntity (closed) | Yes |
+| IAggregateRoot of T | Yes |
+| IAggregateRoot (closed) | Yes |
+| IdentityUser of T | Yes |
+| Entity of T | No |
+| Entity (closed) | No |
+| AggregateRoot of T | No |
+| AggregateRoot (closed) | No |
+
+A helpful reminder is to use the interfaces as constraints, NOT the base classes.
+
 ## FAQ
 
 ### Do I need ClearDomain if I'm not using Domain Driven Design?
@@ -311,7 +419,7 @@ An AggregateRoot that defines an Aggregate is typically persisted via a Reposito
 
 Every AggregateRoot is an Entity, but not every Entity is an AggregateRoot.
 
-An entity is only accessed via the AggregateRoot that contains them. Entities may contain ValueObjects or references to other Entities.
+An entity is only accessed via the AggregateRoot that contains it. Entities may contain ValueObjects or references to other Entities.
 
 ### Object Hierarchy Visualized
 
@@ -320,3 +428,7 @@ ValueObjects and Entities at the bottom rung.
 Aggregates are composed of a single AggregateRoot that contains other Entities and ValueObjects at the next level.
 
 Finally, Aggregates are persisted via Repositories (not part of this package) and may publish DomainEvents exclusive to the model they represent.
+
+### How is equality for Entities and AggregateRoots calculated?
+
+All equality is based on the [IEntity](https://github.com/mjbradvica/ClearDomain/blob/master/source/ClearDomain/Common/IEntity.cs) of type T interface. This is the most basic type in ClearDomain.
