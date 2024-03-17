@@ -3,6 +3,11 @@
 // </copyright>
 
 using System;
+using System.Threading.Tasks;
+using ClearDomain.Samples.GuidIdentity;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace ClearDomain.Samples
 {
@@ -14,17 +19,48 @@ namespace ClearDomain.Samples
         /// <summary>
         /// Samples entry-point.
         /// </summary>
-        public static void Main()
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        public static async Task Main()
         {
-            var airplane = new Airplane(1);
+            var provider = BuildDependencies();
 
-            var money = Money.FromDollars(159);
+            var customer = new GuidCustomer(Guid.NewGuid(), "mikeBrad123");
 
-            var flight = new Flight(133, airplane, money);
+            var userManger = provider.GetRequiredService<UserManager<GuidCustomer>>();
 
-            Console.WriteLine(money);
+            // await userManger.CreateAsync(customer, "SuperSecret123!");
+            var foundCustomer = await userManger.FindByNameAsync("mikeBrad123");
 
-            Console.WriteLine(flight.Cost);
+            if (foundCustomer != null)
+            {
+                Console.WriteLine(foundCustomer.Id);
+            }
+
+            var id = Guid.NewGuid();
+
+            var first = new GuidCustomer(id, "anotherUserName");
+            var second = new GuidCustomer(id, "someUserName");
+
+            // Customers' have entity equality
+            Console.WriteLine(first.Equals(second));
+
+            // Customers can add domain events.
+            first.AppendDomainEvent(new CustomerCreated());
+        }
+
+        private static IServiceProvider BuildDependencies()
+        {
+            var collection = new ServiceCollection();
+
+            collection.AddDbContext<GuidCustomerContext>(x => x.UseSqlServer("Server=.\\SQLExpress;Database=ClearDomain.Samples;Trusted_Connection=True;MultipleActiveResultSets=true;Integrated Security=True;TrustServerCertificate=true"));
+
+            collection
+                .AddIdentityCore<GuidCustomer>()
+                .AddEntityFrameworkStores<GuidCustomerContext>();
+
+            collection.AddLogging();
+
+            return collection.BuildServiceProvider();
         }
     }
 }
