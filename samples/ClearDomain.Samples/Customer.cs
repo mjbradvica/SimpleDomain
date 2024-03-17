@@ -15,6 +15,15 @@ namespace ClearDomain.Samples
         /// <summary>
         /// Initializes a new instance of the <see cref="Customer"/> class.
         /// </summary>
+        public Customer()
+        {
+            Id = Guid.NewGuid();
+            SecurityStamp = Guid.NewGuid().ToString();
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Customer"/> class.
+        /// </summary>
         /// <param name="id">The user identifier.</param>
         public Customer(Guid id)
         {

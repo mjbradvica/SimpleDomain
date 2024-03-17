@@ -22,11 +22,6 @@ namespace ClearDomain.Samples.GuidIdentity
             Id = id;
             UserName = userName;
             SecurityStamp = Guid.NewGuid().ToString();
-
-            if (Id == Guid.Empty)
-            {
-                throw new NullReferenceException(nameof(id));
-            }
         }
     }
 }
