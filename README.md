@@ -96,6 +96,13 @@ ClearDomain.Identity provides:
 
 ## Quick Start
 
+### Most Important Rules
+
+The two most important rules with ClearDomain are:
+
+1) Prefer the .Equals() method to "==", especially with Entities and AggregateRoots
+2) Use interfaces such as [IEntity](https://github.com/mjbradvica/ClearDomain/blob/master/source/ClearDomain/GuidPrimary/IEntity.cs) as constraints, not base classes
+
 ### Value Objects
 
 ValueObjects should all derive from the "ValueObject" base class.
@@ -114,9 +121,11 @@ var first = Money.FromDollars(20);
 
 var second = Money.FromDollars(20);
 
-var areEqual = first == second;
-
 // true
+var areEqual = first.Equals(second);
+
+// works, but not recommended
+var stillOk = first == second;
 ```
 
 The main use for value objects is to model concepts that logically have no use for uniqueness. This may entail names, addresses, time, or in this example, money.
@@ -147,10 +156,14 @@ var first = new Person(1);
 
 var second = new Person(1);
 
+// true
 var areEqual = first.Equals(second);
 
-// true
+// DON'T ATTEMPT. Entity operators are not overloaded.
+var alsoEqual = first == second;
 ```
+
+> Always use the Equals method for Entity equality comparison. More details are available [here](#entity-equality-details).
 
 Entities have a default constructor that may be initialized during creation.
 
@@ -172,9 +185,8 @@ If you choose to use either Guid or string-based entities, the default construct
 ```csharp
 var person = new Person();
 
-var isEmpty = person.Id == Guid.Empty;
-
 // false
+var isEmpty = person.Id == Guid.Empty;
 ```
 
 > If you don't know which identifier to use, it is **highly recommended** to start with either GUIDs or strings.
@@ -269,6 +281,27 @@ public async Task<int> DeleteEntity<T>(IEntity entity)
 }
 ```
 
+### Entity Equality Details
+
+You should always use the Equals method for comparing entity equality. Using the "==" or "!=" will produce a compiler warning.
+
+```csharp
+var plane = new Airplane(1);
+
+var plane2 = new Airplane(1);
+
+// Warning: Possible unintended reference comparison.
+var areSame = plane == plane2;
+```
+
+> ClearDomain does not overload the "==" or "!=" operators for Entities because they can only compare base types, not interfaces.
+
+Unlike the Equals method, the "==" and "!=" can only be used against the same base type, not a set of interfaces. This could lead to undefined behavior, especially if you tried the operator with an "Entity" and "IdentityUser". They share the same interfaces, but calling the == on them would return false even if they had the same identifier.
+
+Equality in C# is an advanced and difficult subject matter with lots of rules to follow. ClearDomain attempts to give you the user the easiest API to follow--but is still required to follow the rules of the language.
+
+> We recommend using the Equals() method for everything so there will never be an issue.
+
 ### AggregateRoot Constraints
 
 All aggregate roots derive from a single interface [IAggregateRoot](https://github.com/mjbradvica/ClearDomain/blob/master/source/ClearDomain/Common/IAggregateRoot.cs) that contains an IEnumerable of current domain events.
@@ -346,10 +379,10 @@ If you wish to use an identifier type not provided you may extend the base class
 
 Due to the base properties being virtual, all ClearDomainIdentityUser classes have limited functionality in their constructors. The two biggest takeaways are:
 
-1) You need to initialize the identifier value.
-2) There are no null or empty identifier checks built in.
+1. You need to initialize the identifier value.
+2. There are no null or empty identifier checks built in.
 
-Even though all of the properties have public setters. You can still force an end-user to instantiate via a constructor.
+Even though all of the properties have public setters. You can still have a limited set of checks and balances with a custom constructor.
 
 ```csharp
 using ClearDomain.Identity.GuidPrimary;
@@ -384,18 +417,18 @@ This is due to only being able to inherit from a single concrete class in C#.
 
 Here is a chart to help you visualize type comparisons:
 
-| Type | Inherits From |
-| ---- | ------------- |
-| IEquatable of IEntity of T | Yes |
-| IEntity of T | Yes |
-| IEntity (closed) | Yes |
-| IAggregateRoot of T | Yes |
-| IAggregateRoot (closed) | Yes |
-| IdentityUser of T | Yes |
-| Entity of T | No |
-| Entity (closed) | No |
-| AggregateRoot of T | No |
-| AggregateRoot (closed) | No |
+| Type                       | Inherits From |
+| -------------------------- | ------------- |
+| IEquatable of IEntity of T | Yes           |
+| IEntity of T               | Yes           |
+| IEntity (closed)           | Yes           |
+| IAggregateRoot of T        | Yes           |
+| IAggregateRoot (closed)    | Yes           |
+| IdentityUser of T          | Yes           |
+| Entity of T                | No            |
+| Entity (closed)            | No            |
+| AggregateRoot of T         | No            |
+| AggregateRoot (closed)     | No            |
 
 A helpful reminder is to use the interfaces as constraints, NOT the base classes.
 
