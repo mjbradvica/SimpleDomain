@@ -15,11 +15,12 @@ namespace ClearDomain.Samples.GuidIdentity
         /// <summary>
         /// Initializes a new instance of the <see cref="GuidCustomer"/> class.
         /// </summary>
-        /// <param name="userName">The username.</param>
-        public GuidCustomer(string userName)
-            : base(userName)
+        /// <param name="id">The user identifier.</param>
+        /// <param name="userName">The customer username.</param>
+        public GuidCustomer(Guid id, string userName)
         {
-            Id = Guid.NewGuid();
+            Id = id;
+            UserName = userName;
             SecurityStamp = Guid.NewGuid().ToString();
         }
     }
