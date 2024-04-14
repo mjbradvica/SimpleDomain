@@ -3,6 +3,8 @@
 // </copyright>
 
 using System;
+using ClearDomain.Common;
+using ClearDomain.StringPrimary;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace ClearDomain.Tests.StringPrimary
@@ -22,6 +24,19 @@ namespace ClearDomain.Tests.StringPrimary
             var entity = new TestStringEntity();
 
             Assert.AreNotEqual(Guid.Empty.ToString(), entity.Id);
+        }
+
+        /// <summary>
+        /// Ensures the string entity has the correct types.
+        /// </summary>
+        [TestMethod]
+        public void Entity_HasTheCorrectTypes()
+        {
+            var entity = new TestStringEntity();
+
+            Assert.IsInstanceOfType<Entity<string>>(entity);
+            Assert.IsInstanceOfType<IEntity>(entity);
+            Assert.IsInstanceOfType<IEntity<string>>(entity);
         }
     }
 }

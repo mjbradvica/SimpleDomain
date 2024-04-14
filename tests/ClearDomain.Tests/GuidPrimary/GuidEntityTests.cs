@@ -3,6 +3,8 @@
 // </copyright>
 
 using System;
+using ClearDomain.Common;
+using ClearDomain.GuidPrimary;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace ClearDomain.Tests.GuidPrimary
@@ -22,6 +24,19 @@ namespace ClearDomain.Tests.GuidPrimary
             var entity = new TestGuidEntity();
 
             Assert.AreNotEqual(Guid.Empty, entity.Id);
+        }
+
+        /// <summary>
+        /// Ensures the guid entity has the correct types.
+        /// </summary>
+        [TestMethod]
+        public void Entity_HasTheCorrectTypes()
+        {
+            var entity = new TestGuidEntity();
+
+            Assert.IsInstanceOfType<Entity<Guid>>(entity);
+            Assert.IsInstanceOfType<IEntity>(entity);
+            Assert.IsInstanceOfType<IEntity<Guid>>(entity);
         }
     }
 }

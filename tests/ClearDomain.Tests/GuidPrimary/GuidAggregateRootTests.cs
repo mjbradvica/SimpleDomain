@@ -1,77 +1,52 @@
-﻿// <copyright file="AggregateRootTests.cs" company="Michael Bradvica LLC">
+﻿// <copyright file="GuidAggregateRootTests.cs" company="Michael Bradvica LLC">
 // Copyright (c) Michael Bradvica LLC. All rights reserved.
 // </copyright>
 
 using System;
-using System.Linq;
 using ClearDomain.Common;
 using ClearDomain.GuidPrimary;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace ClearDomain.Tests
+namespace ClearDomain.Tests.GuidPrimary
 {
     /// <summary>
-    /// Tests for aggregate roots.
+    /// Tests for a <see cref="AggregateRoot"/>.
     /// </summary>
     [TestClass]
-    public class AggregateRootTests
+    public class GuidAggregateRootTests
     {
         /// <summary>
         /// Ensure that events are instantiated on initialization.
         /// </summary>
         [TestMethod]
-        public void DefaultConstructor_InstantiatesEvents()
+        public void DefaultConstructor_InstantiatesObject()
         {
             var root = new TestAggregateRoot();
 
-            Assert.IsNotNull(root.DomainEvents);
+            Assert.IsNotNull(root);
         }
 
         /// <summary>
         /// Ensure that events are instantiated on initialization.
         /// </summary>
         [TestMethod]
-        public void NonDefaultConstructor_InstantiatesEvents()
+        public void NonDefaultConstructor_InstantiatesObject()
         {
             var root = new TestAggregateRoot(Guid.NewGuid());
 
-            Assert.IsNotNull(root.DomainEvents);
+            Assert.IsNotNull(root);
         }
 
         /// <summary>
-        /// Ensures domain events are appended to the list.
+        /// Ensures the class has the correct types.
         /// </summary>
         [TestMethod]
-        public void AddNotification_AppendsToEvents()
+        public void AggregateRoot_HasCorrectTypes()
         {
-            var root = new TestAggregateRoot();
+            var root = new TestAggregateRoot(Guid.NewGuid());
 
-            root.AppendDomainEvent(new TestDomainEvent());
-
-            Assert.AreEqual(1, root.DomainEvents.Count());
-        }
-
-        /// <summary>
-        /// Ensures an aggregate root has the correct types.
-        /// </summary>
-        [TestMethod]
-        public void AggregateRoot_HasTheCorrectTypes()
-        {
-            var root = new TestAggregateRoot();
-
-            Assert.IsInstanceOfType<Entity<Guid>>(root);
-            Assert.IsInstanceOfType<IAggregateRoot<Guid>>(root);
-
-            IEntity<Guid> secondRoot = new TestAggregateRoot();
-
-            Assert.IsInstanceOfType<IEntity<Guid>>(secondRoot);
-        }
-
-        /// <summary>
-        /// Test domain event.
-        /// </summary>
-        public class TestDomainEvent : IDomainEvent
-        {
+            Assert.IsInstanceOfType<AggregateRoot<Guid>>(root);
+            Assert.IsInstanceOfType<IAggregateRoot>(root);
         }
 
         /// <summary>

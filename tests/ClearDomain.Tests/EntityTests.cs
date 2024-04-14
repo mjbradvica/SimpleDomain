@@ -3,6 +3,7 @@
 // </copyright>
 
 using System;
+using ClearDomain.Common;
 using ClearDomain.Tests.GuidPrimary;
 using ClearDomain.Tests.IntPrimary;
 using ClearDomain.Tests.LongPrimary;
@@ -139,6 +140,18 @@ namespace ClearDomain.Tests
             var entity = new TestGuidEntity(Guid.NewGuid());
 
             Assert.IsTrue(entity.GetHashCode() > 0);
+        }
+
+        /// <summary>
+        /// Entities derive from correct types.
+        /// </summary>
+        [TestMethod]
+        public void Entity_IsTheCorrectType()
+        {
+            var entity = new TestGuidEntity(Guid.NewGuid());
+
+            Assert.IsInstanceOfType<IEntity<Guid>>(entity);
+            Assert.IsInstanceOfType<IEquatable<IEntity<Guid>>>(entity);
         }
     }
 }
