@@ -48,7 +48,7 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="ClearDomain" Version="0.9.2" />
+    <PackageReference Include="ClearDomain" Version="0.9.3" />
   </ItemGroup>
 
 </Project>
