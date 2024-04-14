@@ -96,7 +96,9 @@ ClearDomain.Identity provides:
 
 ## Purpose
 
-Equality in dotnet is confusing and difficult to grasp if you are not aware of all the rules. ClearDomain is an attempt to remove the nuance and semantics around equality. 
+Equality in dotnet is confusing and difficult to grasp if you are not aware of all the rules. ClearDomain is an attempt to remove some of the nuance and semantics around equality. It also provides a foundation for writing solid software with a small set of classes and interfaces you can build upon.
+
+> You can still use ClearDomain even if your application is not strictly Domain Driven Design oriented.
 
 ## Quick Start
 
@@ -104,8 +106,8 @@ Equality in dotnet is confusing and difficult to grasp if you are not aware of a
 
 The two most important rules with ClearDomain are:
 
-1) Prefer the .Equals() method to "==", especially with Entities and AggregateRoots
-2) Use interfaces such as [IEntity](https://github.com/mjbradvica/ClearDomain/blob/master/source/ClearDomain/GuidPrimary/IEntity.cs) as constraints, not base classes
+1. Prefer the ".Equals()" method to "==", especially with Entities and AggregateRoots
+2. Use interfaces such as [IEntity](https://github.com/mjbradvica/ClearDomain/blob/master/source/ClearDomain/GuidPrimary/IEntity.cs) as constraints, not base classes
 
 ### Value Objects
 
@@ -163,8 +165,8 @@ var second = new Person(1);
 // true
 var areEqual = first.Equals(second);
 
-// DON'T ATTEMPT. Entity operators are not overloaded.
-var alsoEqual = first == second;
+// DO NOT ATTEMPT. Entity operators are not overloaded.
+var bad = first == second;
 ```
 
 > Always use the Equals method for Entity equality comparison. More details are available [here](#entity-equality-details).
@@ -415,13 +417,13 @@ customer.Id = Guid.Empty;
 
 ## Identity User Types
 
-All ClearDomainIdentityUser classes inherit from the same interfaces as normal Entities and AggregateRoots, but they do not share the same base classes.
+All ClearDomainIdentityUser classes inherit from the same interfaces as normal Entities and AggregateRoots, but they **do not** share the same base classes.
 
 This is due to only being able to inherit from a single concrete class in C#.
 
 Here is a chart to help you visualize type comparisons:
 
-| Type                       | Inherits From |
+| ClearDomainIdentityUser    | Inherits From |
 | -------------------------- | ------------- |
 | IEquatable of IEntity of T | Yes           |
 | IEntity of T               | Yes           |
@@ -434,7 +436,7 @@ Here is a chart to help you visualize type comparisons:
 | AggregateRoot of T         | No            |
 | AggregateRoot (closed)     | No            |
 
-A helpful reminder is to use the interfaces as constraints, NOT the base classes.
+> A helpful reminder is to use the interfaces as constraints, NOT the base classes.
 
 ## FAQ
 

@@ -19,9 +19,16 @@ namespace ClearDomain.Samples.GuidIdentity
         /// <param name="userName">The customer username.</param>
         public GuidCustomer(Guid id, string userName)
         {
+            if (id == Guid.Empty)
+            {
+                throw new ArgumentNullException(nameof(id));
+            }
+
             Id = id;
             UserName = userName;
             SecurityStamp = Guid.NewGuid().ToString();
+
+            AppendDomainEvent(new CustomerCreated());
         }
     }
 }
