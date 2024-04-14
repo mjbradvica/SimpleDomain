@@ -94,6 +94,10 @@ ClearDomain.Identity provides:
 - An IdentityUser class variant in integer, string, long, or Guid format
   with the same Aggregate Root behavior and interface constraints
 
+## Purpose
+
+Equality in dotnet is confusing and difficult to grasp if you are not aware of all the rules. ClearDomain is an attempt to remove the nuance and semantics around equality. 
+
 ## Quick Start
 
 ### Most Important Rules
