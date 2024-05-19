@@ -13,7 +13,7 @@
     <RepositoryUrl>https://github.com/mjbradvica/ClearDomain</RepositoryUrl>
     <PackageTags>ddd, domain, DomainDrivenDesign</PackageTags>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
-    <Version>0.9.3</Version>
+    <Version>0.9.4</Version>
   </PropertyGroup>
 
   <ItemGroup>
@@ -44,7 +44,7 @@
   </ItemGroup>
   <ItemGroup Condition="'$(TargetFramework)' == 'net8.0'">
     <PackageReference Include="Microsoft.Extensions.Identity.Stores">
-      <Version>8.0.4</Version>
+      <Version>8.0.5</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
