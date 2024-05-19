@@ -13,7 +13,7 @@
     <RepositoryUrl>https://github.com/mjbradvica/ClearDomain</RepositoryUrl>
     <PackageTags>ddd, domain, DomainDrivenDesign</PackageTags>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
-    <Version>0.9.4</Version>
+    <Version>0.9.3</Version>
   </PropertyGroup>
 
   <ItemGroup>
