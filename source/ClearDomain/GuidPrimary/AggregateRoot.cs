@@ -16,6 +16,7 @@ namespace ClearDomain.GuidPrimary
         /// Initializes a new instance of the <see cref="AggregateRoot"/> class.
         /// </summary>
         protected AggregateRoot()
+            : base(Guid.NewGuid())
         {
         }
 

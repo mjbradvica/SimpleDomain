@@ -2,6 +2,7 @@
 // Copyright (c) Michael Bradvica LLC. All rights reserved.
 // </copyright>
 
+using System;
 using ClearDomain.Common;
 
 namespace ClearDomain.StringPrimary
@@ -15,6 +16,7 @@ namespace ClearDomain.StringPrimary
         /// Initializes a new instance of the <see cref="AggregateRoot"/> class.
         /// </summary>
         protected AggregateRoot()
+            : base(Guid.NewGuid().ToString())
         {
         }
 

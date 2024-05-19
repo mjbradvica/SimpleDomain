@@ -50,6 +50,17 @@ namespace ClearDomain.Tests.GuidPrimary
         }
 
         /// <summary>
+        /// Default constructor instantiates identifier.
+        /// </summary>
+        [TestMethod]
+        public void DefaultConstructor_InstantiatesIdentifier()
+        {
+            var aggregateRoot = new TestAggregateRoot();
+
+            Assert.AreNotEqual(Guid.Empty, aggregateRoot.Id);
+        }
+
+        /// <summary>
         /// Test aggregate root.
         /// </summary>
         internal class TestAggregateRoot : AggregateRoot

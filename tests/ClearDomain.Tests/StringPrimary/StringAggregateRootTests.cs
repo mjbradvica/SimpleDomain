@@ -49,6 +49,17 @@ namespace ClearDomain.Tests.StringPrimary
         }
 
         /// <summary>
+        /// Default constructor instantiates identifier.
+        /// </summary>
+        [TestMethod]
+        public void DefaultConstructor_InstantiatesIdentifier()
+        {
+            var aggregateRoot = new TestAggregateRoot();
+
+            Assert.AreNotEqual(string.Empty, aggregateRoot.Id);
+        }
+
+        /// <summary>
         /// Test aggregate root.
         /// </summary>
         internal class TestAggregateRoot : AggregateRoot
